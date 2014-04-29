@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
 namespace Com.GriffithsBen.BlogEngine.Models {
+    [MetadataType(typeof(BlogEntryDataAnnotations))]
     public class BlogEntry {
+
+        public int Id { get; set; }
 
         /// <summary>
         /// Note that this is the maximum number of characters to be returned in the synopsis of the content, 

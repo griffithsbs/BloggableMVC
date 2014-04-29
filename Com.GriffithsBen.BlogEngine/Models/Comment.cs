@@ -1,9 +1,12 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace Com.GriffithsBen.BlogEngine.Models {
     public class Comment {
+
+        public int Id { get; set; }
 
         public string Author { get; set; }
 
@@ -16,5 +19,8 @@ namespace Com.GriffithsBen.BlogEngine.Models {
                 return new MvcHtmlString(this.Content);
             }
         }
+
+        // TODO
+        public IEnumerable<Comment> Replies { get; set; }
     }
 }
