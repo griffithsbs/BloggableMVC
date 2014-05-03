@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Com.GriffithsBen.BlogEngine.Configuration;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,15 +10,8 @@ namespace Com.GriffithsBen.BlogEngine.Models {
     [MetadataType(typeof(BlogEntryDataAnnotations))]
     public class BlogEntry {
 
-        private const IEnumerable<Tag> DefaultTagCollection = new List<Tag>() {
-            new Tag("b", "em"),
-            new Tag("i", "i"),
-            new Tag("p", "p"),
-            new Tag("quote", "blockquote")
-        };
-
         public BlogEntry() {
-            this.TagCollection = DefaultTagCollection;
+            this.TagCollection = TagConfiguration.CopyTagCollection();
         }
 
         public int Id { get; set; }

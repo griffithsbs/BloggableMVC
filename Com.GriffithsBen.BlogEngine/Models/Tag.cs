@@ -13,7 +13,7 @@ namespace Com.GriffithsBen.BlogEngine.Models {
     /// It is assumed that all tags are non-self-closing, i.e. both proxy and HTML tag consist of a pair
     /// of tags to open and close the element.
     /// </summary>
-    internal class Tag {
+    public class Tag {
 
         /// <summary>
         /// The name of the tag to be used when marking up blog content by the user
@@ -34,7 +34,7 @@ namespace Com.GriffithsBen.BlogEngine.Models {
         /// <summary>
         /// e.g. [b]
         /// </summary>
-        public string OpenProxyTag {
+        private string OpenProxyTag {
             get {
                 return string.Format("[{0}]", this.ProxyElement);
             }
@@ -43,7 +43,7 @@ namespace Com.GriffithsBen.BlogEngine.Models {
         /// <summary>
         /// e.g. [/b]
         /// </summary>
-        public string CloseProxyTag {
+        private string CloseProxyTag {
             get {
                 return string.Format("[/{0}]", this.ProxyElement);
             }
@@ -52,7 +52,7 @@ namespace Com.GriffithsBen.BlogEngine.Models {
         /// <summary>
         /// e.g. <em>
         /// </summary>
-        public string OpenHtmlTag {
+        private string OpenHtmlTag {
             get {
                 return string.Format("<{0}>", this.HtmlElement);
             }
@@ -61,7 +61,7 @@ namespace Com.GriffithsBen.BlogEngine.Models {
         /// <summary>
         /// e.g. </em>
         /// </summary>
-        public string CloseHtmlTag {
+        private string CloseHtmlTag {
             get {
                 return string.Format("</{0}>", this.HtmlElement);
             }

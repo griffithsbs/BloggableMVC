@@ -22,7 +22,6 @@ namespace Com.GriffithsBen.BlogEngine.Models {
             [Required]
             [Display(Name = "Contents of blog post")]
             [DataType(DataType.MultilineText)]
-            [AllowHtml] // TODO remove
             public string Content;
 
             [Required]
