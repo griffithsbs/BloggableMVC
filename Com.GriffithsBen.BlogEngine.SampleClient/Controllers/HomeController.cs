@@ -1,4 +1,5 @@
 ﻿using Com.GriffithsBen.BlogEngine.Models;
+using Com.GriffithsBen.BlogEngine.SampleClient.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,10 @@ using System.Web.Mvc;
 namespace Com.GriffithsBen.BlogEngine.SampleClient.Controllers {
     public class HomeController : Controller {
 
-        // TODO
-        private BlogEntry GetBlogEntry(int id) {
-            return new BlogEntry();
+        private BlogRepository Repository { get; set; }
+
+        public HomeController() {
+            this.Repository = new BlogRepository();
         }
 
         // TODO
@@ -22,9 +24,17 @@ namespace Com.GriffithsBen.BlogEngine.SampleClient.Controllers {
             return View();
         }
 
+        /// <summary>
+        /// Return a view of a single blog entry
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult BlogEntry(int id) {
 
-            BlogEntry model = this.GetBlogEntry(id);
+            /* more realistically, we would construct a BlogEntry based on an instance of
+             * a blog entity retrievd from the repository
+             */
+            BlogEntry model = this.Repository.GetBlogEntryById(id);
 
             if (model == null) {
                 return new HttpStatusCodeResult(404);
