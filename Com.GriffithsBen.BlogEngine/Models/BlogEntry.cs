@@ -9,9 +9,40 @@ namespace Com.GriffithsBen.BlogEngine.Models {
     [MetadataType(typeof(BlogEntryDataAnnotations))]
     public class BlogEntry {
 
+        private const IEnumerable<Tag> DefaultTagCollection = new List<Tag>() {
+            new Tag("b", "em"),
+            new Tag("i", "i"),
+            new Tag("p", "p"),
+            new Tag("quote", "blockquote")
+        };
+
+        public BlogEntry() {
+            this.TagCollection = DefaultTagCollection;
+        }
+
         public int Id { get; set; }
 
         public IEnumerable<Tag> TagCollection { get; private set; }
+
+        /// <summary>
+        /// Adds a new tag to the tag collection for this blog entry
+        /// </summary>
+        /// <param name="proxyElementName"></param>
+        /// <param name="htmlElementName"></param>
+        public void AddTag(string proxyElementName, string htmlElementName) {
+            this.TagCollection.Concat(new List<Tag>() { new Tag(proxyElementName, htmlElementName) });
+        }
+
+        /// <summary>
+        /// Removes any Tag instances with the given ProxyElement name from the TagCollection
+        /// </summary>
+        /// <param name="proxyElementName">the name of the ProxyElement of the tag to be removed</param>
+        /// <returns></returns>
+        public void RemoveTag(string proxyElementName) {
+            this.TagCollection = this.TagCollection.Except(
+                this.TagCollection.Where(x => x.ProxyElement == proxyElementName)
+            );
+        }
 
         /// <summary>
         /// Note that this is the maximum number of characters to be returned in the synopsis of the content, 
