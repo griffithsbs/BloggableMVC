@@ -10,6 +10,8 @@ namespace Com.GriffithsBen.BlogEngine.Models {
 
         public int Id { get; set; }
 
+        public IEnumerable<Tag> TagCollection { get; private set; }
+
         /// <summary>
         /// Note that this is the maximum number of characters to be returned in the synopsis of the content, 
         /// excluding the 3 characters that make up the trailing ellipsis
@@ -60,6 +62,9 @@ namespace Com.GriffithsBen.BlogEngine.Models {
 
         public string Title { get; set; }
 
+        /// <summary>
+        /// Content may include tags defined in the BlogEntry's TagCollection member 
+        /// </summary>
         public string Content { get; set; }
         
         public DateTime Date { get; set; }
