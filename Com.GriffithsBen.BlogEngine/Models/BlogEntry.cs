@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
@@ -66,6 +67,28 @@ namespace Com.GriffithsBen.BlogEngine.Models {
         /// Content may include tags defined in the BlogEntry's TagCollection member 
         /// </summary>
         public string Content { get; set; }
+
+        /// <summary>
+        /// The Content string, with all instances of tags defined in the BlogEntry's TagCollection converted
+        /// into Html tags
+        /// </summary>
+        private string EncodedHtmlContent {
+            get {
+                if(this.Content == null) {
+                    throw new InvalidOperationException("BlogEntry's Content string is null");
+                }
+
+                if (this.TagCollection == null) {
+                    return this.Content;
+                }
+
+                string result = this.Content;
+                foreach (Tag tag in this.TagCollection) {
+                    result = tag.ReplaceProxyWithHtml(result);
+                }
+                return result;
+            }
+        }
         
         public DateTime Date { get; set; }
 
@@ -73,31 +96,35 @@ namespace Com.GriffithsBen.BlogEngine.Models {
 
         public MvcHtmlString ContentHtml {
             get {
-                return new MvcHtmlString(this.Content);
+                return new MvcHtmlString(this.EncodedHtmlContent);
             }
         }
 
         /// <summary>
-        /// The first x characters of the content string, with any HTML[/XML] tags removed and suffixed with an ellipsis.
+        /// The first x characters of the content string, with any tags removed and suffixed with an ellipsis.
         /// The value of x is 20 by default, but can be overridden globally or on an instance basis
         /// </summary>
         public string Synopsis {
             get {
 
                 if (this.Content == null) {
-                    throw new InvalidOperationException("Content is null");
-                }
-
-                int length = this.GetSynopsisLength();
-
-                if (this.Content.Length <= length) {
                     return this.Content;
                 }
 
-                // strip out any HTML
-                string strippedContent = Regex.Replace(this.Content, @"<[^>]*>", String.Empty);
+                string result = this.Content;
 
-                return strippedContent.Substring(0, length);
+                if (this.TagCollection != null) {
+                    foreach (Tag tag in this.TagCollection) {
+                        result = tag.RemoveProxyTags(result);
+                    }
+                }
+                
+                int length = this.GetSynopsisLength();
+
+                if (result.Length <= length) {
+                    return result;
+                }
+                return result.Substring(0, length);
             }
         }
 

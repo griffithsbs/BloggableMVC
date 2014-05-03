@@ -80,5 +80,19 @@ namespace Com.GriffithsBen.BlogEngine.Models {
                          .Replace(this.CloseProxyTag, this.CloseHtmlTag);
         }
 
+        /// <summary>
+        /// Removes all occurrences of this tag's OpenProxy and CloseProxy tags from the target string
+        /// and returns the result
+        /// </summary>
+        /// <param name="target">The string upon which to act</param>
+        /// <returns></returns>
+        public string RemoveProxyTags(string target) {
+            if (target == null) {
+                throw new NullReferenceException("target string is null");
+            }
+
+            return target.Replace(this.OpenProxyTag, string.Empty)
+                         .Replace(this.CloseProxyTag, string.Empty);
+        }
     }
 }
