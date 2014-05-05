@@ -24,6 +24,7 @@ namespace Com.GriffithsBen.BlogEngine.Abstract {
         public SmartBloggable(IBloggable bloggable) {
             this.Bloggable = bloggable;
             this.TagCollection = TagConfiguration.CopyTagCollection();
+            this.ModelData = new Dictionary<string, string>();
         }
 
         public IEnumerable<Tag> TagCollection { get; private set; }
@@ -204,6 +205,12 @@ namespace Com.GriffithsBen.BlogEngine.Abstract {
                 return new MvcHtmlString(string.Format("{0}...", this.Synopsis));
             }
         }
+
+        /// <summary>
+        /// A Dictionary of key-value pairs of strings, useful if wish to store extra properties from our 
+        /// wrapped object that are not part of the IBloggable interface which the wrapped object implements
+        /// </summary>
+        public Dictionary<string, string> ModelData { get; set; }
 
     }
 }

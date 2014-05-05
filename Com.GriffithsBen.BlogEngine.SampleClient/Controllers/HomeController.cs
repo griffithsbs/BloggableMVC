@@ -22,7 +22,16 @@ namespace Com.GriffithsBen.BlogEngine.SampleClient.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult Index() {
-            return View();
+
+            List<SmartBlogPost> model = new List<SmartBlogPost>();
+
+            foreach (BlogPost post in this.Repository.GetBlogEntries()) {
+                SmartBlogPost smartBlogPost = new SmartBlogPost(post);
+                smartBlogPost.ModelData.Add("Id", post.Id.ToString());
+                model.Add(smartBlogPost);
+            }
+
+            return View(model);
         }
 
         /// <summary>
@@ -39,6 +48,7 @@ namespace Com.GriffithsBen.BlogEngine.SampleClient.Controllers {
             }
             // wrap the entity in a SmartBlogPost to decorate it with SmartBlogPost behaviour
             SmartBlogPost model = new SmartBlogPost(post);
+            model.ModelData.Add("Id", post.Id.ToString());
 
             return View(model);
         }

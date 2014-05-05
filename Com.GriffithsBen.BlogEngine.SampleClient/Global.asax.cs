@@ -13,6 +13,9 @@ namespace Com.GriffithsBen.BlogEngine.SampleClient {
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            // configure blog engine
+            Com.GriffithsBen.BlogEngine.Abstract.SmartBloggable.GlobalSynopsisLength = 60;
         }
     }
 }
