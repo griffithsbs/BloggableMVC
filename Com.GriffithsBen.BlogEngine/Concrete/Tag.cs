@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Com.GriffithsBen.BlogEngine.Concrete {
     /// <summary>
@@ -86,6 +83,8 @@ namespace Com.GriffithsBen.BlogEngine.Concrete {
         /// </summary>
         /// <param name="target">The string upon which to act</param>
         /// <returns></returns>
+        /// 
+        // TODO remove?
         public string RemoveProxyTags(string target) {
             if (target == null) {
                 throw new NullReferenceException("target string is null");
@@ -93,6 +92,16 @@ namespace Com.GriffithsBen.BlogEngine.Concrete {
 
             return target.Replace(this.OpenProxyTag, string.Empty)
                          .Replace(this.CloseProxyTag, string.Empty);
+        }
+
+        public bool TagEncloses(string target, int index) {
+            //TODO
+            return false;
+        }
+
+        public bool ElementEncloses(string target, int index) {
+            // TODO
+            return false;
         }
     }
 }

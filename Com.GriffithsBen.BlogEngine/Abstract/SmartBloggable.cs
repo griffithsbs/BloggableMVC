@@ -1,10 +1,9 @@
 ﻿using Com.GriffithsBen.BlogEngine.Concrete;
 using Com.GriffithsBen.BlogEngine.Configuration;
+using Com.GriffithsBen.BlogEngine.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Com.GriffithsBen.BlogEngine.Abstract {
@@ -175,8 +174,10 @@ namespace Com.GriffithsBen.BlogEngine.Abstract {
         /// <summary>
         /// The first x characters of the content string, with any tags removed and suffixed with an ellipsis.
         /// The value of x is 20 by default, but can be overridden globally or on an instance basis
-        /// </summary>
-        public string Synopsis {
+        /// </summary>#
+        
+        // TODO remove
+        private string oldSynopsis {
             get {
 
                 if (this.Content == null) {
@@ -196,6 +197,61 @@ namespace Com.GriffithsBen.BlogEngine.Abstract {
                 if (result.Length <= length) {
                     return result;
                 }
+                return result.Substring(0, length);
+            }
+        }
+
+        /// <summary>
+        /// The first x characters of the Content string, excluding tags
+        /// </summary>
+        private string Synopsis {
+            get {
+
+                if (this.Content == null) {
+                    return this.Content;
+                }
+
+                string result = this.Content;
+
+                int length = this.GetSynopsisLength();
+
+                if (result.Length <= length) {
+                    return result;
+                }
+
+                // find out which, if any, tag will be 'broken' by truncating the string
+                // i.e. does the end of the substring to be taken fall inside an instance of one of the tags?
+                Tag brokenTag = null;
+
+                // also find out which, if any, elements will be 'broken' by truncating the string
+                // i.e. does the end of the substring to be taken fall inside an instance of one or more of the elements?
+                List<Tag> brokenElements = new List<Tag>();
+
+                if (this.TagCollection != null) {
+                    foreach (Tag tag in this.TagCollection) {
+                        if (tag.TagEncloses(result, length - 1)) {
+                            brokenTag = tag;
+                        }
+                        if(tag.ElementEncloses(result, length - 1)) {
+                            brokenElements.Add(tag);
+                        } 
+                    }
+                }
+
+                result = result.Substring(0, length);
+
+                // if there is a broken tag on the end of the result, fix it
+                // TODO
+                // (use a regex) or just find the last occurrence of '[' in the result
+
+
+
+                // add a closing tag for each of the broken elements
+                // TODO this isn't necessarily going to result in valid HTML
+                foreach (Tag tag in brokenElements) {
+                    result = string.Format("{0}{1}", result, tag.ProxyElement.GetClosingProxyTag());
+                }
+                
                 return result.Substring(0, length);
             }
         }

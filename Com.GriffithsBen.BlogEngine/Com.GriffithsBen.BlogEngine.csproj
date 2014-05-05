@@ -47,6 +47,7 @@
     <Compile Include="Configuration\TagConfiguration.cs" />
     <Compile Include="Concrete\SmartBlogPost.cs" />
     <Compile Include="Concrete\Tag.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
