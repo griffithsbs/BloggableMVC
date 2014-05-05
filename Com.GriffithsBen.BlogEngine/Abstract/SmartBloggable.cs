@@ -1,20 +1,30 @@
-﻿using Com.GriffithsBen.BlogEngine.Configuration;
+﻿using Com.GriffithsBen.BlogEngine.Concrete;
+using Com.GriffithsBen.BlogEngine.Configuration;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace Com.GriffithsBen.BlogEngine.Models {
-    [MetadataType(typeof(BlogEntryDataAnnotations))]
-    public class BlogEntry {
+namespace Com.GriffithsBen.BlogEngine.Abstract {
+    /// <summary>
+    /// SmartBloggable
+    /// Decorates the IBloggable interface with general behaviour for marking up the content of both blog posts
+    /// and comments
+    /// </summary>
+    public class SmartBloggable {
 
-        public BlogEntry() {
+        /// <summary>
+        /// The instance of IBloggable being wrapped and decorated with smart blog behaviour
+        /// We might expect this to be a domain model, DAO, or view model
+        /// </summary>
+        public IBloggable Bloggable { get; set; }
+
+        public SmartBloggable(IBloggable bloggable) {
+            this.Bloggable = bloggable;
             this.TagCollection = TagConfiguration.CopyTagCollection();
         }
-
-        public int Id { get; set; }
 
         public IEnumerable<Tag> TagCollection { get; private set; }
 
@@ -50,13 +60,13 @@ namespace Com.GriffithsBen.BlogEngine.Models {
         /// </summary>
         public static int? GlobalSynopsisLength {
             get {
-                return BlogEntry.mGlobalSynopsisLength;
+                return SmartBloggable.mGlobalSynopsisLength;
             }
             set {
                 if (value < 0) {
                     throw new ArgumentException("GlobalSynopsisLength cannot be less than zero");
                 }
-                BlogEntry.mGlobalSynopsisLength = value;
+                SmartBloggable.mGlobalSynopsisLength = value;
             }
         }
 
@@ -64,10 +74,10 @@ namespace Com.GriffithsBen.BlogEngine.Models {
             if (this.SynopsisLength.HasValue) {
                 return this.SynopsisLength.Value;
             }
-            if (BlogEntry.GlobalSynopsisLength.HasValue) {
-                return BlogEntry.GlobalSynopsisLength.Value;
+            if (SmartBloggable.GlobalSynopsisLength.HasValue) {
+                return SmartBloggable.GlobalSynopsisLength.Value;
             }
-            return BlogEntry.DefaultSynopsisLength;
+            return SmartBloggable.DefaultSynopsisLength;
         }
 
         private int? mSynopsisLength;
@@ -86,12 +96,30 @@ namespace Com.GriffithsBen.BlogEngine.Models {
             }
         }
 
-        public string Title { get; set; }
-
         /// <summary>
+        /// The content of a blog post or comment
         /// Content may include tags defined in the BlogEntry's TagCollection member 
         /// </summary>
-        public string Content { get; set; }
+        public string Content {
+            get {
+                return this.Bloggable.Content;
+            }
+            set {
+                this.Bloggable.Content = value;
+            }
+        }
+
+        /// <summary>
+        /// The name of the author of the bloggable content
+        /// </summary>
+        public string Author {
+            get {
+                return this.Bloggable.Author;
+            }
+            set {
+                this.Bloggable.Author = value;
+            }
+        }
 
         /// <summary>
         /// The Content string, with all instances of tags defined in the BlogEntry's TagCollection converted
@@ -115,9 +143,27 @@ namespace Com.GriffithsBen.BlogEngine.Models {
             }
         }
         
-        public DateTime Date { get; set; }
+        public DateTime Date {
+            get {
+                return this.Bloggable.Date;
+            }
+            set {
+                this.Bloggable.Date = value;
+            }
+        }
 
-        public string DisplayName { get; set; }
+        /// <summary>
+        /// In the case of a Blog post, this is the collection of comments on that post.
+        /// In the case of a comment, this is the collection of replies to that comment.
+        /// </summary>
+        public IEnumerable<IBloggable> Comments {
+            get {
+                return this.Bloggable.Comments;
+            }
+            set {
+                this.Bloggable.Comments = value;
+            }
+        }
 
         public MvcHtmlString ContentHtml {
             get {
@@ -158,8 +204,6 @@ namespace Com.GriffithsBen.BlogEngine.Models {
                 return new MvcHtmlString(string.Format("{0}...", this.Synopsis));
             }
         }
-
-        public IEnumerable<Comment> Comments { get; set; }
 
     }
 }

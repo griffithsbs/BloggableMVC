@@ -42,13 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IBloggable.cs" />
+    <Compile Include="Abstract\SmartBloggable.cs" />
     <Compile Include="Configuration\TagConfiguration.cs" />
-    <Compile Include="ModelAnnotations\BlogEntryDataAnnotations.cs" />
-    <Compile Include="Models\BlogEntry.cs" />
-    <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\Tag.cs" />
+    <Compile Include="Concrete\SmartBlogPost.cs" />
+    <Compile Include="Concrete\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

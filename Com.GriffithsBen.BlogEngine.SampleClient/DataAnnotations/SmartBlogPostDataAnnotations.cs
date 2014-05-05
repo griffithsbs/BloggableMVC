@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Com.GriffithsBen.BlogEngine.Abstract;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace Com.GriffithsBen.BlogEngine.Models {
-    
-    public partial class BlogEntryDataAnnotations {
+namespace Com.GriffithsBen.BlogEngine.SampleClient.DataAnnotations {
+    /// <summary>
+    /// The 
+    /// </summary>
+    public partial class SmartBlogPostDataAnnotations {
 
-        public class BlogEntry {
+        public class SmartBlogPost {
 
-            [ScaffoldColumn(false)]
-            public int Id;
-            
             [ScaffoldColumn(false)]
             public int? SynopsisLength;
 
@@ -34,7 +34,7 @@ namespace Com.GriffithsBen.BlogEngine.Models {
             public string DisplayName;
 
             public MvcHtmlString ContentHtml;
-            
+
             [ScaffoldColumn(false)]
             public string Synopsis;
 
@@ -42,8 +42,8 @@ namespace Com.GriffithsBen.BlogEngine.Models {
             public MvcHtmlString SynopsisHtml;
 
             [Display(Name = "Comments")]
-            public IEnumerable<Comment> Comments;
+            public IEnumerable<IBloggable> Comments;
         }
-    }
 
+    }
 }

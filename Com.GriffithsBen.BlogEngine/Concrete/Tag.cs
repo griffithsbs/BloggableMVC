@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Com.GriffithsBen.BlogEngine.Models {
+namespace Com.GriffithsBen.BlogEngine.Concrete {
     /// <summary>
     /// A tag to be used in marking up blog content, consisting of a proxy tag to be used by the user
     /// and an HTML tag with which the proxy tag can be replaced in order to display the marked up content

@@ -1,4 +1,5 @@
-﻿using Com.GriffithsBen.BlogEngine.Models;
+﻿using Com.GriffithsBen.BlogEngine.Concrete;
+using Com.GriffithsBen.BlogEngine.SampleClient.Models;
 using Com.GriffithsBen.BlogEngine.SampleClient.Repository;
 using System;
 using System.Collections.Generic;
@@ -31,14 +32,13 @@ namespace Com.GriffithsBen.BlogEngine.SampleClient.Controllers {
         /// <returns></returns>
         public ActionResult BlogEntry(int id) {
 
-            /* more realistically, we would construct a BlogEntry based on an instance of
-             * a blog entity retrievd from the repository
-             */
-            BlogEntry model = this.Repository.GetBlogEntryById(id);
-
-            if (model == null) {
+            // retrieve a blog post entity from the mock repository
+            BlogPost post = this.Repository.GetBlogEntryById(id);
+            if (post == null) {
                 return new HttpStatusCodeResult(404);
             }
+            // wrap the entity in a SmartBlogPost to decorate it with SmartBlogPost behaviour
+            SmartBlogPost model = new SmartBlogPost(post);
 
             return View(model);
         }
