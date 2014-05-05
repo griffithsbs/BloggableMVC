@@ -15,3 +15,9 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#blog-content-editor {
+    width: 1000px;
+    max-width: 2000px;
+    height: 500px;
+}

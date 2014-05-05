@@ -10,11 +10,9 @@ namespace Com.GriffithsBen.BlogEngine.SampleClient.Repository {
     /// </summary>
     public class BlogRepository {
 
-        private List<BlogPost> BlogEntries { get; set; }
-
-        public BlogRepository() {
+        static BlogRepository() {
             // initialise with a couple of dummy blog entries
-            this.BlogEntries = new List<BlogPost>() {
+            BlogRepository.Store = new List<BlogPost>() {
 
                 new BlogPost() {
                     Content = "[p][b]This[/b] is the first dummy blog entry[/p][p]It consists of two paragraphs[/p]",
@@ -33,6 +31,17 @@ namespace Com.GriffithsBen.BlogEngine.SampleClient.Repository {
                 }
 
             };
+        }
+
+        private static List<BlogPost> Store { get; set; }
+
+        private List<BlogPost> BlogEntries {
+            get {
+                return BlogRepository.Store;
+            }
+            set {
+                BlogRepository.Store = value;
+            }
         }
 
         public IEnumerable<BlogPost> GetBlogEntries() {

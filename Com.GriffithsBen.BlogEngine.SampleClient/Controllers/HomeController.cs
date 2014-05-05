@@ -16,7 +16,6 @@ namespace Com.GriffithsBen.BlogEngine.SampleClient.Controllers {
             this.Repository = new BlogRepository();
         }
 
-        // TODO
         /// <summary>
         /// Return a view of all blog entries
         /// </summary>
@@ -50,6 +49,24 @@ namespace Com.GriffithsBen.BlogEngine.SampleClient.Controllers {
             SmartBlogPost model = new SmartBlogPost(post);
             model.ModelData.Add("Id", post.Id.ToString());
 
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id) {
+            BlogPost model = this.Repository.GetBlogEntryById(id);
+            if (model == null) {
+                return new HttpStatusCodeResult(404);
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(BlogPost model) {
+            if (ModelState.IsValid) {
+                this.Repository.UpdateBlogEntry(model);
+                return RedirectToAction("Index");
+            }
             return View(model);
         }
 
