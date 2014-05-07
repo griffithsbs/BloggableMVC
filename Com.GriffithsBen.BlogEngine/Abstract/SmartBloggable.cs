@@ -12,7 +12,7 @@ namespace Com.GriffithsBen.BlogEngine.Abstract {
     /// Decorates the IBloggable interface with general behaviour for marking up the content of both blog posts
     /// and comments
     /// </summary>
-    public class SmartBloggable {
+    public abstract class SmartBloggable {
 
         /// <summary>
         /// The instance of IBloggable being wrapped and decorated with smart blog behaviour
@@ -168,36 +168,6 @@ namespace Com.GriffithsBen.BlogEngine.Abstract {
         public MvcHtmlString ContentHtml {
             get {
                 return new MvcHtmlString(this.EncodedHtmlContent);
-            }
-        }
-
-        /// <summary>
-        /// The first x characters of the content string, with any tags removed and suffixed with an ellipsis.
-        /// The value of x is 20 by default, but can be overridden globally or on an instance basis
-        /// </summary>#
-        
-        // TODO remove
-        private string oldSynopsis {
-            get {
-
-                if (this.Content == null) {
-                    return this.Content;
-                }
-
-                string result = this.Content;
-
-                if (this.TagCollection != null) {
-                    foreach (Tag tag in this.TagCollection) {
-                        result = tag.RemoveProxyTags(result);
-                    }
-                }
-                
-                int length = this.GetSynopsisLength();
-
-                if (result.Length <= length) {
-                    return result;
-                }
-                return result.Substring(0, length);
             }
         }
 

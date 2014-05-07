@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>250732e3-e895-4fbb-9a15-9c6188834866</ProjectGuid>
+    <ProjectGuid>{277E067A-68D8-46CA-AAFC-9CD0922A04CF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Com.GriffithsBen.BlogEngine.Test</RootNamespace>
@@ -50,8 +50,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="TagTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SmartBloggableTest.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
