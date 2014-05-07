@@ -25,6 +25,12 @@ namespace Com.GriffithsBen.BlogEngine.Test {
             }
         }
 
+        private Tag Ptag {
+            get {
+                return new Tag("p", "p");
+            }
+        }
+
         [TestInitialize]
         public void TestInitialize() {
             this.BlogPost = new BloggableObject();
@@ -32,7 +38,14 @@ namespace Com.GriffithsBen.BlogEngine.Test {
 
         [TestMethod]
         public void TagEnclosesTest() {
-            // TODO
+            string value = "[p]Valid markup[/p]Valid markup";
+
+            for (int i = 0; i < 19; i++) {
+                Assert.IsTrue(this.Ptag.TagEncloses(value, i), string.Format("p tag should enclose index {0} of string \"{1}\"", i, value));
+            }
+            for (int i = 19; i < value.Length; i++) {
+                Assert.IsFalse(this.Ptag.TagEncloses(value, i), string.Format("p tag should not enclose index {0} of string \"{1}\"", i, value));
+            }
         }
 
         [TestMethod]

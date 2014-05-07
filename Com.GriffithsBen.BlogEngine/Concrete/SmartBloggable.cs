@@ -10,8 +10,8 @@ using System.Web.Mvc;
 namespace Com.GriffithsBen.BlogEngine.Concrete {
     /// <summary>
     /// SmartBloggable
-    /// Decorates the IBloggable interface with general behaviour for marking up the content of both blog posts
-    /// and comments
+    /// Decorates the IBloggable interface with general behaviour for marking up 
+    /// blog content (e.g. blog posts or comments)
     /// </summary>
     public class SmartBloggable {
 
