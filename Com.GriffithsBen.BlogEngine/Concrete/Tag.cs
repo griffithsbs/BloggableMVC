@@ -94,14 +94,65 @@ namespace Com.GriffithsBen.BlogEngine.Concrete {
                          .Replace(this.CloseProxyTag, string.Empty);
         }
 
-        public bool TagEncloses(string target, int index) {
-            //TODO
+        private bool Encloses(string target, int index, bool inclusive) {
+            while (target.Length > 0) {
+
+                int startTagStartIndex = target.IndexOf(this.OpenProxyTag);
+
+                if (startTagStartIndex == -1) {
+                    // no start tag found in the remainder of the string
+                    return false;
+                }
+
+                int startTagEndIndex = startTagStartIndex + this.OpenProxyTag.Length;
+                int endTagStartIndex = target.IndexOf(this.CloseProxyTag, startTagEndIndex);
+
+                if (endTagStartIndex == -1) {
+                    // no end tag found in the remainder of the string
+                    return false;
+                }
+
+                int endTagEndIndex = endTagStartIndex + this.OpenProxyTag.Length;
+
+                bool encloses = false;
+
+                if (inclusive) {
+                    encloses = index >= startTagStartIndex && index <= endTagEndIndex;
+                }
+                else {
+                    encloses = index > startTagEndIndex && index < endTagStartIndex;
+                }
+
+                if (encloses) {
+                    return true;
+                }
+
+                // check the remainder of the string
+                target = target.Substring(endTagEndIndex);
+            }
+
             return false;
         }
 
+        /// <summary>
+        /// Returns true if the index within the target string is between the start and end tags of 
+        /// an instance of this Tag, including within the start and end tags themselves
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public bool TagEncloses(string target, int index) {
+            return this.Encloses(target, index, true);
+        }
+
+        /// <summary>
+        /// Returns true if the index within the target string is inside an instance of this Tag
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public bool ElementEncloses(string target, int index) {
-            // TODO
-            return false;
+            return this.Encloses(target, index, false);
         }
     }
 }
