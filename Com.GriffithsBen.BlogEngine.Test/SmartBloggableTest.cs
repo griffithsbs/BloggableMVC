@@ -3,9 +3,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Com.GriffithsBen.BlogEngine.Test {
     [TestClass]
-    public class UnitTest1 {
+    public class SmartBloggableTest {
+
         [TestMethod]
-        public void TestMethod1() {
+        public void SynopsisTest() {
+            // TODO
         }
+
     }
 }
