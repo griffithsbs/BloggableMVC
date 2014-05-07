@@ -241,11 +241,10 @@ namespace Com.GriffithsBen.BlogEngine.Abstract {
                 result = result.Substring(0, length);
 
                 // if there is a broken tag on the end of the result, fix it
-                // TODO
-                // (use a regex) or just find the last occurrence of '[' in the result
-
-
-
+                int startOfBrokenTag = result.LastIndexOf('[');
+                result = result.Substring(0, startOfBrokenTag);
+                result = brokenTag.AppendProxyEndTagTo(result);
+                
                 // add a closing tag for each of the broken elements
                 // TODO this isn't necessarily going to result in valid HTML
                 foreach (Tag tag in brokenElements) {

@@ -77,6 +77,10 @@ namespace Com.GriffithsBen.BlogEngine.Concrete {
                          .Replace(this.CloseProxyTag, this.CloseHtmlTag);
         }
 
+        public string AppendProxyEndTagTo(string target) {
+            return string.Format("{0}{1}", target, this.CloseProxyTag);
+        }
+
         /// <summary>
         /// Removes all occurrences of this tag's OpenProxy and CloseProxy tags from the target string
         /// and returns the result
