@@ -15,7 +15,7 @@ namespace Com.GriffithsBen.BlogEngine.SampleClient {
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             // configure blog engine
-            Com.GriffithsBen.BlogEngine.Abstract.SmartBloggable.GlobalSynopsisLength = 60;
+            Com.GriffithsBen.BlogEngine.Concrete.SmartBloggable.GlobalSynopsisLength = 60;
         }
     }
 }

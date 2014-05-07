@@ -1,6 +1,6 @@
 ﻿@using System.Collections.Generic;
 @using Com.GriffithsBen.BlogEngine.Concrete;
-@model IEnumerable<SmartBlogPost>
+@model IEnumerable<SmartBloggable>
 @{
     ViewBag.Title = "A list of blog entries";
 }
@@ -12,7 +12,7 @@
 
 <div class="row">
 
-    @foreach (SmartBlogPost blogPost in Model) {
+    @foreach (SmartBloggable blogPost in Model) {
         <div class="col-md-12">
             <h2>@string.Format("{0} - {1}", blogPost.Title, blogPost.Date)</h2>
             <p>

@@ -1,4 +1,5 @@
-﻿using Com.GriffithsBen.BlogEngine.Concrete;
+﻿using Com.GriffithsBen.BlogEngine.Abstract;
+using Com.GriffithsBen.BlogEngine.Concrete;
 using Com.GriffithsBen.BlogEngine.Configuration;
 using Com.GriffithsBen.BlogEngine.Extensions;
 using System;
@@ -6,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace Com.GriffithsBen.BlogEngine.Abstract {
+namespace Com.GriffithsBen.BlogEngine.Concrete {
     /// <summary>
     /// SmartBloggable
     /// Decorates the IBloggable interface with general behaviour for marking up the content of both blog posts
     /// and comments
     /// </summary>
-    public abstract class SmartBloggable {
+    public class SmartBloggable {
 
         /// <summary>
         /// The instance of IBloggable being wrapped and decorated with smart blog behaviour
@@ -153,6 +154,30 @@ namespace Com.GriffithsBen.BlogEngine.Abstract {
         }
 
         /// <summary>
+        /// The title of the blog content
+        /// </summary>
+        public string Title {
+            get {
+                return this.Bloggable.Title;
+            }
+            set {
+                this.Bloggable.Title = value;
+            }
+        }
+
+        /// <summary>
+        /// A display name for the blog content, for example for use in a pretty URL
+        /// </summary>
+        public string DisplayName {
+            get {
+                return this.Bloggable.DisplayName;
+            }
+            set {
+                this.Bloggable.DisplayName = value;
+            }
+        }
+
+        /// <summary>
         /// In the case of a Blog post, this is the collection of comments on that post.
         /// In the case of a comment, this is the collection of replies to that comment.
         /// </summary>
@@ -202,8 +227,10 @@ namespace Com.GriffithsBen.BlogEngine.Abstract {
                         if (tag.TagEncloses(result, length - 1)) {
                             brokenTag = tag;
                         }
-                        if(tag.ElementEncloses(result, length - 1)) {
-                            brokenElements.Add(tag);
+                        else {
+                            if (tag.ElementEncloses(result, length - 1)) {
+                                brokenElements.Add(tag);
+                            }
                         } 
                     }
                 }
@@ -211,9 +238,11 @@ namespace Com.GriffithsBen.BlogEngine.Abstract {
                 result = result.Substring(0, length);
 
                 // if there is a broken tag on the end of the result, fix it
-                int startOfBrokenTag = result.LastIndexOf('[');
-                result = result.Substring(0, startOfBrokenTag);
-                result = brokenTag.AppendProxyEndTagTo(result);
+                if (brokenTag != null) {
+                    int startOfBrokenTag = result.LastIndexOf('[');
+                    result = result.Substring(0, startOfBrokenTag);
+                    result = brokenTag.AppendProxyEndTagTo(result);
+                }
                 
                 // add a closing tag for each of the broken elements
                 // TODO this isn't necessarily going to result in valid HTML
@@ -225,9 +254,31 @@ namespace Com.GriffithsBen.BlogEngine.Abstract {
             }
         }
 
+        /// <summary>
+        /// The Synopsis string, with all instances of tags defined in the BlogEntry's TagCollection converted
+        /// into Html tags
+        /// </summary>
+        private string EncodedHtmlSynopsis {
+            get {
+                if (this.Synopsis == null) {
+                    throw new InvalidOperationException("BlogEntry's Content string is null");
+                }
+
+                if (this.TagCollection == null) {
+                    return this.Synopsis;
+                }
+
+                string result = this.Synopsis;
+                foreach (Tag tag in this.TagCollection) {
+                    result = tag.ReplaceProxyWithHtml(result);
+                }
+                return result;
+            }
+        }
+
         public MvcHtmlString SynopsisHtml {
             get {
-                return new MvcHtmlString(string.Format("{0}...", this.Synopsis));
+                return new MvcHtmlString(string.Format("{0}...", this.EncodedHtmlSynopsis));
             }
         }
 
