@@ -1,4 +1,4 @@
-A simple little library of utilities aimed at allowing a bespoke blog to be quickly integrated into an ASP.NET MVC application.
+A simple little library of utilities to facilitate developing a bespoke blog as part of an ASP.NET MVC application.
 
 The bloggable utilities can be used in two ways:
 
