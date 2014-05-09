@@ -1,9 +1,9 @@
-﻿using Com.GriffithsBen.BlogEngine.SampleClient.Models;
+﻿using Com.GriffithsBen.BloggableMVC.SampleClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Com.GriffithsBen.BlogEngine.SampleClient.Repository {
+namespace Com.GriffithsBen.BloggableMVC.SampleClient.Repository {
 
     /// <summary>
     /// A mock repository for illustration purposes

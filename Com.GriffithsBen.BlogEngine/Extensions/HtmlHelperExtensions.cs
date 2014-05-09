@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace Com.GriffithsBen.BlogEngine.Extensions {
+namespace Com.GriffithsBen.BloggableMVC.Extensions {
 
     public static class HtmlHelperExtensions {
 

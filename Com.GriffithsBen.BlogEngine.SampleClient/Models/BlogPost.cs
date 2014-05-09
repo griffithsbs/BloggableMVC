@@ -1,10 +1,10 @@
-﻿using Com.GriffithsBen.BlogEngine.Abstract;
+﻿using Com.GriffithsBen.BloggableMVC.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Com.GriffithsBen.BlogEngine.SampleClient.Models {
+namespace Com.GriffithsBen.BloggableMVC.SampleClient.Models {
 
     /// <summary>
     /// This is a mock data access object, which for the purposes of this example is also being used as

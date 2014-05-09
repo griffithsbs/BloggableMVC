@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Com.GriffithsBen.BlogEngine.Concrete {
+namespace Com.GriffithsBen.BloggableMVC.Concrete {
     /// <summary>
     /// A tag to be used in marking up blog content, consisting of a proxy tag to be used by the user
     /// and an HTML tag with which the proxy tag can be replaced in order to display the marked up content

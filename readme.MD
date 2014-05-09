@@ -6,7 +6,7 @@ The blog engine classes can be used in two ways:
 basic blog content markup behaviour. The wrapped model must implement the IBloggable interface.
 
 2. Alternatively, the SmartBloggable methods can be used indirectly via the HtmlHelper extension methods within the namespace 
-Com.GriffithsBen.BlogEngine.Extensions.
+Com.GriffithsBen.BloggableMVC.Extensions.
 
 Blog content can be marked up with simple, safe tags which are then converted into equivalent HTML tags by the 
 SmartBloggable wrapper. The list of tags to be used is entirely up to the developer. The default tags are as follows:

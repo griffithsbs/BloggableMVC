@@ -1,13 +1,13 @@
-﻿using Com.GriffithsBen.BlogEngine.Concrete;
-using Com.GriffithsBen.BlogEngine.SampleClient.Models;
-using Com.GriffithsBen.BlogEngine.SampleClient.Repository;
+﻿using Com.GriffithsBen.BloggableMVC.Concrete;
+using Com.GriffithsBen.BloggableMVC.SampleClient.Models;
+using Com.GriffithsBen.BloggableMVC.SampleClient.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Com.GriffithsBen.BlogEngine.SampleClient.Controllers {
+namespace Com.GriffithsBen.BloggableMVC.SampleClient.Controllers {
     public class HomeController : Controller {
 
         private BlogRepository Repository { get; set; }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Com.GriffithsBen.BlogEngine.Test {
+namespace Com.GriffithsBen.BloggableMVC.Test {
     [TestClass]
     public class SmartBloggableTest {
 

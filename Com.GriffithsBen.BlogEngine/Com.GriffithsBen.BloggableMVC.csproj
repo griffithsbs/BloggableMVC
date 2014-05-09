@@ -7,8 +7,8 @@
     <ProjectGuid>{DAC10B36-8F36-45AC-BBE9-CC18DB7ADE6D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Com.GriffithsBen.BlogEngine</RootNamespace>
-    <AssemblyName>Com.GriffithsBen.BlogEngine</AssemblyName>
+    <RootNamespace>Com.GriffithsBen.BloggableMVC</RootNamespace>
+    <AssemblyName>Com.GriffithsBen.BloggableMVC</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

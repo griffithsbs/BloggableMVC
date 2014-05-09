@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace Com.GriffithsBen.BlogEngine.SampleClient {
+namespace Com.GriffithsBen.BloggableMVC.SampleClient {
     public class MvcApplication : System.Web.HttpApplication {
         protected void Application_Start() {
             AreaRegistration.RegisterAllAreas();
@@ -15,7 +15,7 @@ namespace Com.GriffithsBen.BlogEngine.SampleClient {
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             // configure blog engine
-            Com.GriffithsBen.BlogEngine.Concrete.SmartBloggable.GlobalSynopsisLength = 60;
+            Com.GriffithsBen.BloggableMVC.Concrete.SmartBloggable.GlobalSynopsisLength = 60;
         }
     }
 }

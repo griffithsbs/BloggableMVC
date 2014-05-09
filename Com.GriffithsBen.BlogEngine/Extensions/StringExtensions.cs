@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Com.GriffithsBen.BlogEngine.Extensions {
+namespace Com.GriffithsBen.BloggableMVC.Extensions {
     public static class StringExtensions {
 
         public static string GetOpeningProxyTag(this string elementName) {

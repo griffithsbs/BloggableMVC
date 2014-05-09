@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Com.GriffithsBen.BlogEngine.SampleClient</RootNamespace>
-    <AssemblyName>Com.GriffithsBen.BlogEngine.SampleClient</AssemblyName>
+    <RootNamespace>Com.GriffithsBen.BloggableMVC.SampleClient</RootNamespace>
+    <AssemblyName>Com.GriffithsBen.BloggableMVC.SampleClient</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -156,9 +156,9 @@
     <Content Include="Views\Home\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Com.GriffithsBen.BlogEngine\Com.GriffithsBen.BlogEngine.csproj">
+    <ProjectReference Include="..\Com.GriffithsBen.BlogEngine\Com.GriffithsBen.BloggableMVC.csproj">
       <Project>{dac10b36-8f36-45ac-bbe9-cc18db7ade6d}</Project>
-      <Name>Com.GriffithsBen.BlogEngine</Name>
+      <Name>Com.GriffithsBen.BloggableMVC</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Com.GriffithsBen.BlogEngine.Concrete;
-using Com.GriffithsBen.BlogEngine.Abstract;
+using Com.GriffithsBen.BloggableMVC.Concrete;
+using Com.GriffithsBen.BloggableMVC.Abstract;
 
-namespace Com.GriffithsBen.BlogEngine.Test {
+namespace Com.GriffithsBen.BloggableMVC.Test {
     [TestClass]
     public class TagTest {
 

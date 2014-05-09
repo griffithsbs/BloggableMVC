@@ -3,16 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.GriffithsBen.BlogEngine", "Com.GriffithsBen.BlogEngine\Com.GriffithsBen.BlogEngine.csproj", "{DAC10B36-8F36-45AC-BBE9-CC18DB7ADE6D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.GriffithsBen.BloggableMVC", "Com.GriffithsBen.BlogEngine\Com.GriffithsBen.BloggableMVC.csproj", "{DAC10B36-8F36-45AC-BBE9-CC18DB7ADE6D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{98FBF01B-04D3-44DC-8D57-6DBD046C4CB1}"
 	ProjectSection(SolutionItems) = preProject
 		readme.MD = readme.MD
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.GriffithsBen.BlogEngine.SampleClient", "Com.GriffithsBen.BlogEngine.SampleClient\Com.GriffithsBen.BlogEngine.SampleClient.csproj", "{4E951110-8F55-42D3-BEB7-2FA713B04954}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.GriffithsBen.BloggableMVC.SampleClient", "Com.GriffithsBen.BlogEngine.SampleClient\Com.GriffithsBen.BloggableMVC.SampleClient.csproj", "{4E951110-8F55-42D3-BEB7-2FA713B04954}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.GriffithsBen.BlogEngine.Test", "Com.GriffithsBen.BlogEngine.Test\Com.GriffithsBen.BlogEngine.Test.csproj", "{277E067A-68D8-46CA-AAFC-9CD0922A04CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.GriffithsBen.BloggableMVC.Test", "Com.GriffithsBen.BlogEngine.Test\Com.GriffithsBen.BloggableMVC.Test.csproj", "{277E067A-68D8-46CA-AAFC-9CD0922A04CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

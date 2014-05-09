@@ -1,10 +1,10 @@
-﻿using Com.GriffithsBen.BlogEngine.Abstract;
+﻿using Com.GriffithsBen.BloggableMVC.Abstract;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace Com.GriffithsBen.BlogEngine.SampleClient.DataAnnotations {
+namespace Com.GriffithsBen.BloggableMVC.SampleClient.DataAnnotations {
     /// <summary>
     /// The 
     /// </summary>

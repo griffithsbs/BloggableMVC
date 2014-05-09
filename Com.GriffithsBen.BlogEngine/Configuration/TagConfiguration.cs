@@ -1,8 +1,8 @@
-﻿using Com.GriffithsBen.BlogEngine.Concrete;
+﻿using Com.GriffithsBen.BloggableMVC.Concrete;
 using System;
 using System.Collections.Generic;
 
-namespace Com.GriffithsBen.BlogEngine.Configuration {
+namespace Com.GriffithsBen.BloggableMVC.Configuration {
 
     /// <summary>
     /// 
