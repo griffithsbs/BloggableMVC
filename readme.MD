@@ -1,6 +1,6 @@
-A simple little blogging engine for ASP.NET MVC, consisting of a small number of models and helper methods.
+A simple little library of utilities aimed at allowing a bespoke blog to be quickly integrated into an ASP.NET MVC application.
 
-The blog engine classes can be used in two ways:
+The bloggable utilities can be used in two ways:
 
 1. An existing domain model or view model can be wrapped inside a SmartBloggable object in order to provide some 
 basic blog content markup behaviour. The wrapped model must implement the IBloggable interface.
