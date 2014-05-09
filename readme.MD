@@ -1,3 +1,6 @@
+BloggableMVC
+============
+
 A simple little library of utilities to facilitate developing a bespoke blog as part of an ASP.NET MVC application.
 
 The bloggable utilities can be used in two ways:
@@ -18,4 +21,3 @@ p	  => p
 quote => blockquote
 
 The list of tags can be modified, extended, or replaced entirely at an Application or instance level.
-
