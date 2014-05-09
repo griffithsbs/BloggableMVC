@@ -55,7 +55,7 @@
     <Compile Include="SmartBloggableTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Com.GriffithsBen.BlogEngine\Com.GriffithsBen.BloggableMVC.csproj">
+    <ProjectReference Include="..\Com.GriffithsBen.BloggableMVC\Com.GriffithsBen.BloggableMVC.csproj">
       <Project>{dac10b36-8f36-45ac-bbe9-cc18db7ade6d}</Project>
       <Name>Com.GriffithsBen.BloggableMVC</Name>
     </ProjectReference>
