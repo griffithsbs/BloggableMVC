@@ -4,26 +4,26 @@ using System.Linq;
 
 namespace Com.GriffithsBen.BloggableMVC.Concrete {
     /// <summary>
-    /// A tag to be used in marking up blog content, consisting of a proxy tag to be used by the user
-    /// and an HTML tag with which the proxy tag can be replaced in order to display the marked up content
+    /// An element to be used in marking up blog content, consisting of a proxy element to be used by the user
+    /// and an HTML element with which the proxy element can be replaced in order to display the marked up content
     /// as HTML.
-    /// It is assumed that all tags are non-self-closing, i.e. both proxy and HTML tag consist of a pair
+    /// It is assumed that all element are non-self-closing, i.e. both proxy and HTML element consist of a pair
     /// of tags to open and close the element.
     /// </summary>
-    public class Tag {
+    public class MarkupElement {
 
         /// <summary>
-        /// The name of the tag to be used when marking up blog content by the user
+        /// The name of the element to be used when marking up blog content by the user
         /// e.g. "b" or "quote"
         /// </summary>
         public string ProxyElement { get; private set; }
 
         /// <summary>
-        /// The name of the HTML tag with which the proxy tag will be replaced
+        /// The name of the HTML element with which the proxy element will be replaced
         /// </summary>
         public string HtmlElement { get; private set; }
 
-        public Tag(string proxyElementName, string htmlElementName) {
+        public MarkupElement(string proxyElementName, string htmlElementName) {
             this.ProxyElement = proxyElementName;
             this.HtmlElement = htmlElementName;
         }
@@ -65,7 +65,8 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         }
 
         /// <summary>
-        /// Replaces all instances of this Tag's Proxy tags with its corresponding HTML tags and returns the result
+        /// Replaces all instances of this MarkupElement's Proxy tags with its corresponding HTML tags and 
+        /// returns the result
         /// </summary>
         /// <param name="target">The string upon which to act</param>
         /// <returns></returns>
@@ -82,7 +83,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         }
 
         /// <summary>
-        /// Removes all occurrences of this tag's OpenProxy and CloseProxy tags from the target string
+        /// Removes all occurrences of this MarkupElement's OpenProxy and CloseProxy tags from the target string
         /// and returns the result
         /// </summary>
         /// <param name="target">The string upon which to act</param>
@@ -140,7 +141,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
 
         /// <summary>
         /// Returns true if the index within the target string is between the start and end tags of 
-        /// an instance of this Tag, including within the start and end tags themselves
+        /// an instance of this MarkupElement, including within the start and end tags themselves
         /// </summary>
         /// <param name="target"></param>
         /// <param name="index"></param>
@@ -150,7 +151,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         }
 
         /// <summary>
-        /// Returns true if the index within the target string is inside an instance of this Tag
+        /// Returns true if the index within the target string is inside an instance of this MarkupElement
         /// </summary>
         /// <param name="target"></param>
         /// <param name="index"></param>

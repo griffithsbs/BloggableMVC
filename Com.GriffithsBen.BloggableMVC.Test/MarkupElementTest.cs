@@ -6,7 +6,7 @@ using Com.GriffithsBen.BloggableMVC.Abstract;
 
 namespace Com.GriffithsBen.BloggableMVC.Test {
     [TestClass]
-    public class TagTest {
+    public class MarkupElementTest {
 
         internal class BloggableObject : IBloggable {
             public string Title { get; set; }
@@ -25,9 +25,9 @@ namespace Com.GriffithsBen.BloggableMVC.Test {
             }
         }
 
-        private Tag Ptag {
+        private MarkupElement pElement {
             get {
-                return new Tag("p", "p");
+                return new MarkupElement("p", "p");
             }
         }
 
@@ -41,10 +41,10 @@ namespace Com.GriffithsBen.BloggableMVC.Test {
             string value = "[p]Valid markup[/p]Valid markup";
 
             for (int i = 0; i < 19; i++) {
-                Assert.IsTrue(this.Ptag.TagEncloses(value, i), string.Format("p tag should enclose index {0} of string \"{1}\"", i, value));
+                Assert.IsTrue(this.pElement.TagEncloses(value, i), string.Format("p tag should enclose index {0} of string \"{1}\"", i, value));
             }
             for (int i = 19; i < value.Length; i++) {
-                Assert.IsFalse(this.Ptag.TagEncloses(value, i), string.Format("p tag should not enclose index {0} of string \"{1}\"", i, value));
+                Assert.IsFalse(this.pElement.TagEncloses(value, i), string.Format("p tag should not enclose index {0} of string \"{1}\"", i, value));
             }
         }
 

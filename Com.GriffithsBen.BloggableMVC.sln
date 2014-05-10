@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.GriffithsBen.BloggableM
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{98FBF01B-04D3-44DC-8D57-6DBD046C4CB1}"
 	ProjectSection(SolutionItems) = preProject
-		readme.md = readme.md
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.GriffithsBen.BloggableMVC.SampleClient", "Com.GriffithsBen.BloggableMVC.SampleClient\Com.GriffithsBen.BloggableMVC.SampleClient.csproj", "{4E951110-8F55-42D3-BEB7-2FA713B04954}"

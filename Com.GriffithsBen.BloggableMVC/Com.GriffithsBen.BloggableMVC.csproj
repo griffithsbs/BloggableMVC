@@ -44,8 +44,8 @@
   <ItemGroup>
     <Compile Include="Abstract\IBloggable.cs" />
     <Compile Include="Concrete\SmartBloggable.cs" />
-    <Compile Include="Configuration\TagConfiguration.cs" />
-    <Compile Include="Concrete\Tag.cs" />
+    <Compile Include="Configuration\MarkupConfiguration.cs" />
+    <Compile Include="Concrete\MarkupElement.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

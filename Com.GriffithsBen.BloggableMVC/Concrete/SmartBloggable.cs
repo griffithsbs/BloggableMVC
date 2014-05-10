@@ -23,29 +23,29 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
 
         public SmartBloggable(IBloggable bloggable) {
             this.Bloggable = bloggable;
-            this.TagCollection = TagConfiguration.CopyTagCollection();
+            this.MarkupElements = MarkupConfiguration.CopyMarkupElements();
             this.ModelData = new Dictionary<string, string>();
         }
 
-        public IEnumerable<Tag> TagCollection { get; private set; }
+        public IEnumerable<MarkupElement> MarkupElements { get; private set; }
 
         /// <summary>
-        /// Adds a new tag to the tag collection for this blog entry
+        /// Adds a new element to the MarkupElement collection for this blog entry
         /// </summary>
         /// <param name="proxyElementName"></param>
         /// <param name="htmlElementName"></param>
-        public void AddTag(string proxyElementName, string htmlElementName) {
-            this.TagCollection.Concat(new List<Tag>() { new Tag(proxyElementName, htmlElementName) });
+        public void AddMarkupElement(string proxyElementName, string htmlElementName) {
+            this.MarkupElements.Concat(new List<MarkupElement>() { new MarkupElement(proxyElementName, htmlElementName) });
         }
 
         /// <summary>
-        /// Removes any Tag instances with the given ProxyElement name from the TagCollection
+        /// Removes any MarkupElement instances with the given ProxyElement name from the MarkupElements collection
         /// </summary>
-        /// <param name="proxyElementName">the name of the ProxyElement of the tag to be removed</param>
+        /// <param name="proxyElementName">the name of the ProxyElement of the element to be removed</param>
         /// <returns></returns>
-        public void RemoveTag(string proxyElementName) {
-            this.TagCollection = this.TagCollection.Except(
-                this.TagCollection.Where(x => x.ProxyElement == proxyElementName)
+        public void RemoveMarkupElement(string proxyElementName) {
+            this.MarkupElements = this.MarkupElements.Except(
+                this.MarkupElements.Where(x => x.ProxyElement == proxyElementName)
             );
         }
 
@@ -99,7 +99,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
 
         /// <summary>
         /// The content of a blog post or comment
-        /// Content may include tags defined in the BlogEntry's TagCollection member 
+        /// Content may include tags defined in the BlogEntry's MarkupElements member 
         /// </summary>
         public string Content {
             get {
@@ -123,7 +123,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         }
 
         /// <summary>
-        /// The Content string, with all instances of tags defined in the BlogEntry's TagCollection converted
+        /// The Content string, with all instances of tags defined in the BlogEntry's MarkupElements collection converted
         /// into Html tags
         /// </summary>
         private string EncodedHtmlContent {
@@ -132,13 +132,13 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
                     throw new InvalidOperationException("BlogEntry's Content string is null");
                 }
 
-                if (this.TagCollection == null) {
+                if (this.MarkupElements == null) {
                     return this.Content;
                 }
 
                 string result = this.Content;
-                foreach (Tag tag in this.TagCollection) {
-                    result = tag.ReplaceProxyWithHtml(result);
+                foreach (MarkupElement element in this.MarkupElements) {
+                    result = element.ReplaceProxyWithHtml(result);
                 }
                 return result;
             }
@@ -216,20 +216,20 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
 
                 // find out which, if any, tag will be 'broken' by truncating the string
                 // i.e. does the end of the substring to be taken fall inside an instance of one of the tags?
-                Tag brokenTag = null;
+                MarkupElement brokenTag = null;
 
                 // also find out which, if any, elements will be 'broken' by truncating the string
                 // i.e. does the end of the substring to be taken fall inside an instance of one or more of the elements?
-                List<Tag> brokenElements = new List<Tag>();
+                List<MarkupElement> brokenElements = new List<MarkupElement>();
 
-                if (this.TagCollection != null) {
-                    foreach (Tag tag in this.TagCollection) {
-                        if (tag.TagEncloses(result, length - 1)) {
-                            brokenTag = tag;
+                if (this.MarkupElements != null) {
+                    foreach (MarkupElement element in this.MarkupElements) {
+                        if (element.TagEncloses(result, length - 1)) {
+                            brokenTag = element;
                         }
                         else {
-                            if (tag.ElementEncloses(result, length - 1)) {
-                                brokenElements.Add(tag);
+                            if (element.ElementEncloses(result, length - 1)) {
+                                brokenElements.Add(element);
                             }
                         } 
                     }
@@ -246,8 +246,8 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
                 
                 // add a closing tag for each of the broken elements
                 // TODO this isn't necessarily going to result in valid HTML
-                foreach (Tag tag in brokenElements) {
-                    result = string.Format("{0}{1}", result, tag.ProxyElement.GetClosingProxyTag());
+                foreach (MarkupElement element in brokenElements) {
+                    result = string.Format("{0}{1}", result, element.ProxyElement.GetClosingProxyTag());
                 }
                 
                 return result.Substring(0, length);
@@ -255,7 +255,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         }
 
         /// <summary>
-        /// The Synopsis string, with all instances of tags defined in the BlogEntry's TagCollection converted
+        /// The Synopsis string, with all instances of tags defined in the BlogEntry's MarkupElements collection converted
         /// into Html tags
         /// </summary>
         private string EncodedHtmlSynopsis {
@@ -264,13 +264,13 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
                     throw new InvalidOperationException("BlogEntry's Content string is null");
                 }
 
-                if (this.TagCollection == null) {
+                if (this.MarkupElements == null) {
                     return this.Synopsis;
                 }
 
                 string result = this.Synopsis;
-                foreach (Tag tag in this.TagCollection) {
-                    result = tag.ReplaceProxyWithHtml(result);
+                foreach (MarkupElement element in this.MarkupElements) {
+                    result = element.ReplaceProxyWithHtml(result);
                 }
                 return result;
             }
