@@ -136,7 +136,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
                     encloses = index >= startTagStartIndex && index <= endTagEndIndex;
                 }
                 else {
-                    encloses = index > startTagEndIndex && index < endTagStartIndex;
+                    encloses = index >= startTagEndIndex && index < endTagStartIndex;
                 }
 
                 if (encloses) {

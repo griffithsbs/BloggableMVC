@@ -143,94 +143,94 @@ namespace Com.GriffithsBen.BloggableMVC.Test {
             string value = "[p]Valid markup[/p]Valid markup";
 
             new ElementEnclosesReporter(element: this.pElement,
-                                             trueBetweenIndices: new int[] { 3, 16 },
+                                             trueBetweenIndices: new int[] { 3, 15 },
                                              value: value)
                                                           .Report();
 
             value = "[p]Valid [b]markup[/b][/p]Valid markup";
 
             new ElementEnclosesReporter(element: this.pElement,
-                                             trueBetweenIndices: new int[] { 3, 23 },
+                                             trueBetweenIndices: new int[] { 3, 22 },
                                              value: value)
                                                           .Report();
 
             new ElementEnclosesReporter(element: this.bElement,
-                                             trueBetweenIndices: new int[] { 12, 19 },
+                                             trueBetweenIndices: new int[] { 12, 18 },
                                              value: value)
                                                           .Report();
 
             value = "Valid markup[p][/p][p]Valid [b]markup[/b][/p]Valid markup";
 
             new ElementEnclosesReporter(element: this.pElement,
-                                             trueBetweenIndices: new int[] { 15, 16, 22, 42 },
+                                             trueBetweenIndices: new int[] { 22, 41 },
                                              value: value)
                                                           .Report();
 
             new ElementEnclosesReporter(element: this.bElement,
-                                             trueBetweenIndices: new int[] { 31, 38 },
+                                             trueBetweenIndices: new int[] { 31, 37 },
                                              value: value)
                                                           .Report();
 
             value = "Valid markup[p][b][/b][/p][p]Valid [b]markup[/b][/p]Valid markup";
 
             new ElementEnclosesReporter(element: this.pElement,
-                                             trueBetweenIndices: new int[] { 15, 22, 29, 49 },
+                                             trueBetweenIndices: new int[] { 15, 22, 29, 48 },
                                              value: value)
                                                           .Report();
 
             new ElementEnclosesReporter(element: this.bElement,
-                                             trueBetweenIndices: new int[] { 18, 19, 38, 44 }, 
+                                             trueBetweenIndices: new int[] { 38, 44 }, 
                                              value: value)
                                                           .Report();
 
             value = "[quote]Valid markup[p][b][/b][/p][p]Valid [b]markup[/b][/p]Valid markup[/quote]";
 
             new ElementEnclosesReporter(element: this.pElement,
-                                             trueBetweenIndices: new int[] { 22, 30, 36, 56 },
+                                             trueBetweenIndices: new int[] { 22, 29, 36, 55 },
                                              value: value)
                                                           .Report();
 
             new ElementEnclosesReporter(element: this.bElement,
-                                             trueBetweenIndices: new int[] { 25, 26, 45, 52 },
+                                             trueBetweenIndices: new int[] { 45, 51 },
                                              value: value)
                                                           .Report();
 
             new ElementEnclosesReporter(element: this.quoteElement,
-                                             trueBetweenIndices: new int[] { 7, value.Length - 7 },
+                                             trueBetweenIndices: new int[] { 7, value.Length - 8 },
                                              value: value)
                                                           .Report();
 
             value = "[quote]Valid[/quote]markup[p][b][/b][/p][p]Valid [b]markup[/b][/p]Valid markup";
 
             new ElementEnclosesReporter(element: this.pElement,
-                                             trueBetweenIndices: new int[] { 29, 37, 43, 63 },
+                                             trueBetweenIndices: new int[] { 29, 36, 43, 62 },
                                              value: value)
                                                           .Report();
 
             new ElementEnclosesReporter(element: this.bElement,
-                                             trueBetweenIndices: new int[] { 32, 33, 52, 59 },
+                                             trueBetweenIndices: new int[] { 52, 58 },
                                              value: value)
                                                           .Report();
 
             new ElementEnclosesReporter(element: this.quoteElement,
-                                             trueBetweenIndices: new int[] { 7, 13 },
+                                             trueBetweenIndices: new int[] { 7, 12 },
                                              value: value)
                                                           .Report();
 
             value = "[quote]Valid[/quote] note space[p][b][/b][/p][p]Valid [b]markup[/b][/p]Valid markup";
 
             new ElementEnclosesReporter(element: this.pElement,
-                                             trueBetweenIndices: new int[] { 34, 42, 48, 68 },
+                                             trueBetweenIndices: new int[] { 34, 41, 48, 67 },
                                              value: value)
                                                           .Report();
 
             new ElementEnclosesReporter(element: this.bElement,
-                                             trueBetweenIndices: new int[] { 37, 38, 57, 64 },
+                                             trueBetweenIndices: new int[] { 57, 63 },
                                              value: value)
                                                           .Report();
 
             new ElementEnclosesReporter(element: this.quoteElement,
-                                             trueBetweenIndices: new int[] { 7, 13 },
+                                             trueBetweenIndices: new int[] { 7, 12 },
                                              value: value)
                                                           .Report();
 
@@ -242,7 +242,7 @@ namespace Com.GriffithsBen.BloggableMVC.Test {
 
             value = "          [p]  [/p]";
             new ElementEnclosesReporter(element: this.pElement,
-                                             trueBetweenIndices: new int[] { 13, value.Length - 3 },
+                                             trueBetweenIndices: new int[] { 13, value.Length - 4 },
                                              value: value)
                                                           .Report();
         }

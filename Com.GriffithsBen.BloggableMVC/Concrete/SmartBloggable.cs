@@ -225,19 +225,22 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
                 if (this.MarkupElements != null) {
                     foreach (MarkupElement element in this.MarkupElements) {
                         if (element.TagEncloses(result, length - 1)) {
-                            brokenTag = element;
-                        }
-                        else {
+
                             if (element.ElementEncloses(result, length - 1)) {
                                 brokenElements.Add(element);
                             }
-                        } 
+                            else {
+                                brokenTag = element;
+                            }
+                        }
                     }
                 }
 
                 result = result.Substring(0, length);
 
                 // if there is a broken tag on the end of the result, fix it
+                // TODO it could be a start tag or an end tag that is broken
+                // if a start tag, it needs to be removed rather than fixed
                 if (brokenTag != null) {
                     int startOfBrokenTag = result.LastIndexOf('[');
                     result = result.Substring(0, startOfBrokenTag);
@@ -246,6 +249,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
                 
                 // add a closing tag for each of the broken elements
                 // TODO this isn't necessarily going to result in valid HTML
+                // we need to test whether the tags are balanced
                 foreach (MarkupElement element in brokenElements) {
                     result = string.Format("{0}{1}", result, element.ProxyElement.GetClosingProxyTag());
                 }
