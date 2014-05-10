@@ -135,7 +135,8 @@ namespace Com.GriffithsBen.BloggableMVC.Test {
                                              trueBetweenIndices: new int[] { 10, value.Length },
                                              value: value)
                                                           .Report();
-
+            
+            // TODO test with invalid markup
         }
 
         [TestMethod]
@@ -245,6 +246,19 @@ namespace Com.GriffithsBen.BloggableMVC.Test {
                                              trueBetweenIndices: new int[] { 13, value.Length - 4 },
                                              value: value)
                                                           .Report();
+
+            // TODO test with invalid markup
+        }
+
+        [TestMethod]
+        public void ReplaceProxyWithHtmlTest() {
+            string value = "[p]Valid markup[/p]Valid markup";
+
+            string expected = "<p>Valid markup</p>Valid markup";
+
+            Assert.AreEqual(expected, this.pElement.ReplaceProxyWithHtml(value));
+
+            // TODO
         }
 
     }
