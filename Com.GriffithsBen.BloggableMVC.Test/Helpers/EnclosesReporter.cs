@@ -24,6 +24,12 @@ namespace Com.GriffithsBen.BloggableMVC.Test.Helpers {
         /// An expression which invokes either MarkupElement.TagEncloses or MarkupElement.ElementIncloses
         /// </summary>
         protected Expression<Func<string, int, bool>> ExpressionToTest { get; set; }
+
+        /// <summary>
+        /// The name of the method being tested
+        /// </summary>
+        protected string MethodName { get; set; }
+
         /// <summary>
         /// The string to test against
         /// </summary>
@@ -75,7 +81,7 @@ namespace Com.GriffithsBen.BloggableMVC.Test.Helpers {
                 for (int i = tuple.Item1; i < tuple.Item2; i++) {
                     Assert.IsTrue(this.ExpressionToTest.Compile().Invoke(this.Value, i),
                                     string.Format("{0} should return true with element {1}, value \"{2}\" and index {3}",
-                                        this.ExpressionToTest.Body.ToString(),
+                                        this.MethodName,
                                         this.Element.ProxyElement,
                                         this.Value,
                                         i));
@@ -87,7 +93,7 @@ namespace Com.GriffithsBen.BloggableMVC.Test.Helpers {
             foreach (int index in falseBetweenIndices) {
                 Assert.IsFalse(this.ExpressionToTest.Compile().Invoke(this.Value, index),
                                 string.Format("{0} should return false with element {1}, value \"{2}\" and index {3}",
-                                this.ExpressionToTest.Body.ToString(),
+                                this.MethodName,
                                 this.Element.ProxyElement,
                                 this.Value,
                                 index));

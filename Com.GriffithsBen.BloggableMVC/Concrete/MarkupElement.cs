@@ -164,7 +164,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         /// <param name="target"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public bool TagEncloses(string target, int index) {
+        internal bool TagEncloses(string target, int index) {
             return this.Encloses(target, index, true);
         }
 
@@ -174,7 +174,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         /// <param name="target"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public bool ElementEncloses(string target, int index) {
+        internal bool ElementEncloses(string target, int index) {
             return this.Encloses(target, index, false);
         }
     }
