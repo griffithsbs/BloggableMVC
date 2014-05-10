@@ -11,10 +11,11 @@ The bloggable utilities can be used in two ways:
 
 Blog content can be marked up with simple, safe tags which are then converted into equivalent HTML tags by the SmartBloggable wrapper. The list of tags to be used is entirely up to the developer. The default tags (so far) are as follows:
 
-tag |html equivalent
-'[b]'| '<em>'
-'[i]'| '<i>'
-'[p]'| '<p>'
-'[quote]'| '<blockquote>'
+tag | html equivalent
+--- | ---
+`[b]` | `<em>`
+`[i]` | `<i>`
+`[p]` | `<p>`
+`[quote]` | `<blockquote>`
 
 The list of tags can be modified, extended, or replaced entirely at an Application or instance level.
