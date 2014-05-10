@@ -19,3 +19,5 @@ tag | html equivalent
 `[quote]` | `<blockquote>`
 
 The list of tags can be modified, extended, or replaced entirely at an Application or instance level.
+
+The sample client project requires Twitter Bootstrap and jQuery (tested with 1.10.2).
