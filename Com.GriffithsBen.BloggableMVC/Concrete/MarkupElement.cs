@@ -100,6 +100,17 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         }
 
         private bool Encloses(string target, int index, bool inclusive) {
+
+            if (target == null) {
+                throw new NullReferenceException("target");
+            }
+            if (index < 0) {
+                throw new ArgumentException("index cannot be less than zero");
+            }
+            if (index >= target.Length) {
+                throw new ArgumentException("index must be less than target length");
+            }
+
             while (target.Length > 0) {
 
                 int startTagStartIndex = target.IndexOf(this.OpenProxyTag);
@@ -132,8 +143,15 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
                     return true;
                 }
 
+                if (target.Length <= (endTagEndIndex + 1)) {
+                    return false;
+                }
+
                 // check the remainder of the string
-                target = target.Substring(endTagEndIndex);
+                target = target.Substring(endTagEndIndex + 1);
+                // reduce the index in proportion to the change in length of the target
+                index -= (endTagEndIndex + 1);
+                
             }
 
             return false;

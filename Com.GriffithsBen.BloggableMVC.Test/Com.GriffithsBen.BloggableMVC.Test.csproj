@@ -50,6 +50,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Helpers\ElementEnclosesReporter.cs" />
+    <Compile Include="Helpers\EnclosesReporter.cs" />
+    <Compile Include="Helpers\TagEnclosesReporter.cs" />
     <Compile Include="MarkupElementTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartBloggableTest.cs" />
