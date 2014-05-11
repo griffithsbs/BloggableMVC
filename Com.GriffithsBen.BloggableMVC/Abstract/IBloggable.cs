@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace Com.GriffithsBen.BloggableMVC.Abstract {
     
-    public interface IBloggable {
+    public interface IBloggable : IMarkupable {
 
         string Title { get; set; }
-
-        string Content { get; set; }
 
         string Author { get; set; }
 
@@ -19,7 +17,7 @@ namespace Com.GriffithsBen.BloggableMVC.Abstract {
 
         string DisplayName { get; set; }
 
-        IEnumerable<IBloggable> Comments { get; set; }
+        IEnumerable<IBloggable> Comments { get; set; } // TODO IMarkupable rather than IBloggable?
 
     }
 }

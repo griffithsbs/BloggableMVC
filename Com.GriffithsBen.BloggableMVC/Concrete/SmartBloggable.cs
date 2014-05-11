@@ -8,10 +8,12 @@ using System.Linq;
 using System.Web.Mvc;
 
 namespace Com.GriffithsBen.BloggableMVC.Concrete {
+
     /// <summary>
     /// SmartBloggable
     /// Decorates the IBloggable interface with general behaviour for marking up 
-    /// blog content (e.g. blog posts or comments)
+    /// blog content (e.g. blog posts or comments) TODO - the IMarkupable interface should describe the generalised markup behaviour,
+    /// and the IBloggable interface should be used for wrapping the particular case of a blog entry
     /// </summary>
     public class SmartBloggable {
 
@@ -19,34 +21,17 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         /// The instance of IBloggable being wrapped and decorated with smart blog behaviour
         /// We might expect this to be a domain model, DAO, or view model
         /// </summary>
-        public IBloggable Bloggable { get; set; }
+        private IBloggable Bloggable { get; set; }
+
+        /// <summary>
+        /// SmartBloggable is composed with a Markupable object to which it can delegate markup-specific calls
+        /// </summary>
+        private Markupable Markupable { get; set; }
 
         public SmartBloggable(IBloggable bloggable) {
             this.Bloggable = bloggable;
-            this.MarkupElements = MarkupConfiguration.CopyMarkupElements();
+            this.Markupable = new Markupable(bloggable);
             this.ModelData = new Dictionary<string, string>();
-        }
-
-        public IEnumerable<MarkupElement> MarkupElements { get; private set; }
-
-        /// <summary>
-        /// Adds a new element to the MarkupElement collection for this blog entry
-        /// </summary>
-        /// <param name="proxyElementName"></param>
-        /// <param name="htmlElementName"></param>
-        public void AddMarkupElement(string proxyElementName, string htmlElementName) {
-            this.MarkupElements.Concat(new List<MarkupElement>() { new MarkupElement(proxyElementName, htmlElementName) });
-        }
-
-        /// <summary>
-        /// Removes any MarkupElement instances with the given ProxyElement name from the MarkupElements collection
-        /// </summary>
-        /// <param name="proxyElementName">the name of the ProxyElement of the element to be removed</param>
-        /// <returns></returns>
-        public void RemoveMarkupElement(string proxyElementName) {
-            this.MarkupElements = this.MarkupElements.Except(
-                this.MarkupElements.Where(x => x.ProxyElement == proxyElementName)
-            );
         }
 
         /// <summary>
@@ -122,28 +107,6 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
             }
         }
 
-        /// <summary>
-        /// The Content string, with all instances of tags defined in the BlogEntry's MarkupElements collection converted
-        /// into Html tags
-        /// </summary>
-        private string EncodedHtmlContent {
-            get {
-                if(this.Content == null) {
-                    throw new InvalidOperationException("BlogEntry's Content string is null");
-                }
-
-                if (this.MarkupElements == null) {
-                    return this.Content;
-                }
-
-                string result = this.Content;
-                foreach (MarkupElement element in this.MarkupElements) {
-                    result = element.ReplaceProxyWithHtml(result);
-                }
-                return result;
-            }
-        }
-        
         public DateTime Date {
             get {
                 return this.Bloggable.Date;
@@ -192,97 +155,13 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
 
         public MvcHtmlString ContentHtml {
             get {
-                return new MvcHtmlString(this.EncodedHtmlContent);
-            }
-        }
-
-        /// <summary>
-        /// The first x characters of the Content string, excluding tags
-        /// </summary>
-        private string Synopsis {
-            get {
-
-                if (this.Content == null) {
-                    return this.Content;
-                }
-
-                string result = this.Content;
-
-                int length = this.GetSynopsisLength();
-
-                if (result.Length <= length) {
-                    return result;
-                }
-
-                // find out which, if any, tag will be 'broken' by truncating the string
-                // i.e. does the end of the substring to be taken fall inside an instance of one of the tags?
-                MarkupElement brokenTag = null;
-
-                // also find out which, if any, elements will be 'broken' by truncating the string
-                // i.e. does the end of the substring to be taken fall inside an instance of one or more of the elements?
-                List<MarkupElement> brokenElements = new List<MarkupElement>();
-
-                if (this.MarkupElements != null) {
-                    foreach (MarkupElement element in this.MarkupElements) {
-                        if (element.TagEncloses(result, length - 1)) {
-
-                            if (element.ElementEncloses(result, length - 1)) {
-                                brokenElements.Add(element);
-                            }
-                            else {
-                                brokenTag = element;
-                            }
-                        }
-                    }
-                }
-
-                result = result.Substring(0, length);
-
-                // if there is a broken tag on the end of the result, fix it
-                // TODO it could be a start tag or an end tag that is broken
-                // if a start tag, it needs to be removed rather than fixed
-                if (brokenTag != null) {
-                    int startOfBrokenTag = result.LastIndexOf('[');
-                    result = result.Substring(0, startOfBrokenTag);
-                    result = brokenTag.AppendProxyEndTagTo(result);
-                }
-                
-                // add a closing tag for each of the broken elements
-                // TODO this isn't necessarily going to result in valid HTML
-                // we need to test whether the tags are balanced
-                foreach (MarkupElement element in brokenElements) {
-                    result = string.Format("{0}{1}", result, element.ProxyElement.GetClosingProxyTag());
-                }
-                
-                return result.Substring(0, length);
-            }
-        }
-
-        /// <summary>
-        /// The Synopsis string, with all instances of tags defined in the BlogEntry's MarkupElements collection converted
-        /// into Html tags
-        /// </summary>
-        private string EncodedHtmlSynopsis {
-            get {
-                if (this.Synopsis == null) {
-                    throw new InvalidOperationException("BlogEntry's Content string is null");
-                }
-
-                if (this.MarkupElements == null) {
-                    return this.Synopsis;
-                }
-
-                string result = this.Synopsis;
-                foreach (MarkupElement element in this.MarkupElements) {
-                    result = element.ReplaceProxyWithHtml(result);
-                }
-                return result;
+                return this.Markupable.ContentHtml;
             }
         }
 
         public MvcHtmlString SynopsisHtml {
             get {
-                return new MvcHtmlString(string.Format("{0}...", this.EncodedHtmlSynopsis));
+                return this.Markupable.TruncateContentHtml(this.GetSynopsisLength());
             }
         }
 

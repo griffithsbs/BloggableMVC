@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IBloggable.cs" />
+    <Compile Include="Abstract\IMarkupable.cs" />
+    <Compile Include="Concrete\Markupable.cs" />
     <Compile Include="Concrete\SmartBloggable.cs" />
     <Compile Include="Configuration\MarkupConfiguration.cs" />
     <Compile Include="Concrete\MarkupElement.cs" />
