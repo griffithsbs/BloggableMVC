@@ -282,7 +282,14 @@ namespace Com.GriffithsBen.BloggableMVC.Test {
                                             this.pElement.ReplaceProxyWithHtml(value)
                                        ))
             );
-            // TODO
+
+            value = "[quotp]Invalid markup[/p]Invalid markup[/quote][p]Invalid markupInvalid markup [/b][b[/b]";
+            expected = "[quotp]Invalid markup</p>Invalid markup</blockquote><p>Invalid markupInvalid markup </em>[b</em>";
+            Assert.AreEqual(expected, this.bElement.ReplaceProxyWithHtml(
+                                        this.quoteElement.ReplaceProxyWithHtml(
+                                            this.pElement.ReplaceProxyWithHtml(value)
+                                       ))
+            );
         }
 
     }
