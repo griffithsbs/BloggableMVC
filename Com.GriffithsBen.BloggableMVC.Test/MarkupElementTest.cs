@@ -247,17 +247,41 @@ namespace Com.GriffithsBen.BloggableMVC.Test {
                                              value: value)
                                                           .Report();
 
-            // TODO test with invalid markup
+
+            value = "Invalid[/quote] note space[p][b][/b][/p]Invalid [b]markup[/b][/p]Invalid markup";
+
+            new ElementEnclosesReporter(element: this.pElement,
+                                             trueBetweenIndices: new int[] { 29, 36  },
+                                             value: value)
+                                                          .Report();
+
+            new ElementEnclosesReporter(element: this.bElement,
+                                             trueBetweenIndices: new int[] { 51, 57 },
+                                             value: value)
+                                                          .Report();
+
+            new ElementEnclosesReporter(element: this.quoteElement,
+                                             trueBetweenIndices: new int[0],
+                                             value: value)
+                                                          .Report();
+
+            // TODO further tests with invalid markup
         }
 
         [TestMethod]
         public void ReplaceProxyWithHtmlTest() {
+
             string value = "[p]Valid markup[/p]Valid markup";
-
             string expected = "<p>Valid markup</p>Valid markup";
-
             Assert.AreEqual(expected, this.pElement.ReplaceProxyWithHtml(value));
 
+            value = "[quote][p]Valid markup[/p]Valid markup[/quote][p]valid markup[b]valid markup [/b][/p][b][/b]";
+            expected = "<blockquote><p>Valid markup</p>Valid markup</blockquote><p>valid markup<em>valid markup </em></p><em></em>";
+            Assert.AreEqual(expected, this.bElement.ReplaceProxyWithHtml(
+                                        this.quoteElement.ReplaceProxyWithHtml(
+                                            this.pElement.ReplaceProxyWithHtml(value)
+                                       ))
+            );
             // TODO
         }
 
