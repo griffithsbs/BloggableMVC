@@ -12,8 +12,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
     /// <summary>
     /// SmartBloggable
     /// Decorates the IBloggable interface with general behaviour for marking up 
-    /// blog content (e.g. blog posts or comments) TODO - the IMarkupable interface should describe the generalised markup behaviour,
-    /// and the IBloggable interface should be used for wrapping the particular case of a blog entry
+    /// blog content (e.g. blog posts or comments)
     /// </summary>
     public class SmartBloggable {
 

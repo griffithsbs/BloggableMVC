@@ -15,7 +15,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         /// <summary>
         /// The object wrapped by this Markupable object
         /// </summary>
-        private IMarkupable MarkupableContent;
+        private IMarkupable MarkupableContent { get; set; }
 
         public IEnumerable<MarkupElement> MarkupElements { get; private set; }
 
