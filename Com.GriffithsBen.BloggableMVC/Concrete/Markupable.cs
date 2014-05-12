@@ -109,7 +109,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
             // TODO it could be a start tag or an end tag that is broken
             // if a start tag, it needs to be removed rather than fixed
             if (brokenTag != null) {
-                int startOfBrokenTag = result.LastIndexOf('['); // TODO proxy tag format may not necessarily start with a '['
+                int startOfBrokenTag = result.LastIndexOf(brokenTag.ProxyTagDelimiter.GetOpeningCharacter());
                 result = result.Substring(0, startOfBrokenTag);
                 result = brokenTag.AppendProxyEndTagTo(result);
             }
