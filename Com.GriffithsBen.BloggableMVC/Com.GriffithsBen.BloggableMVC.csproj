@@ -48,6 +48,8 @@
     <Compile Include="Concrete\SmartBloggable.cs" />
     <Compile Include="Configuration\MarkupConfiguration.cs" />
     <Compile Include="Concrete\MarkupElement.cs" />
+    <Compile Include="Configuration\ProxyTagDelimiter.cs" />
+    <Compile Include="Configuration\ProxyTagDelimiterExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

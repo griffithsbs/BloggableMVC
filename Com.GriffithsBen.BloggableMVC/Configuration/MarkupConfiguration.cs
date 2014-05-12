@@ -11,8 +11,7 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
 
         static MarkupConfiguration() {
             MarkupConfiguration.MarkupElements = MarkupConfiguration.DefaultMarkupElements;
-            MarkupConfiguration.OpenProxyTagFormat = "[{0}]";
-            MarkupConfiguration.CloseProxyTagFormat = "[/{0}]";
+            MarkupConfiguration.ProxyTagDelimiter = ProxyTagDelimiter.SquareBracket;
         }
 
         private static List<MarkupElement> DefaultMarkupElements = new List<MarkupElement>() {
@@ -22,18 +21,13 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
             new MarkupElement("quote", "blockquote")
         };
 
-        public static string OpenProxyTagFormat { get; set; }
-        public static string CloseProxyTagFormat { get; set; }
-
         /// <summary>
         /// The static collection of markup elements that will be used to initialise the MarkUpElements collection
         /// of all new blog entries
         /// </summary>
         private static List<MarkupElement> MarkupElements { get; set; }
 
-        /// <summary>
-        /// Used to get hold of a copy of the markup element collection which can then be changed independently
-        /// of the default collection of mark up elements
+        public static ProxyTagDelimiter ProxyTagDelimiter { get; set; }
         /// </summary>
         /// <returns>a new collection of markup elements, cloned from MarkupElementConfiguration.MarkupElements</returns>
         public static IEnumerable<MarkupElement> CopyMarkupElements() {

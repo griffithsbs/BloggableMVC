@@ -28,62 +28,25 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         public MarkupElement(string proxyElementName, string htmlElementName) {
             this.ProxyElement = proxyElementName;
             this.HtmlElement = htmlElementName;
-            this.OpenProxyTagFormat = MarkupConfiguration.OpenProxyTagFormat;
-            this.CloseProxyTagFormat = MarkupConfiguration.CloseProxyTagFormat;
+            this.ProxyTagDelimiter = MarkupConfiguration.ProxyTagDelimiter;
         }
 
-        private string mOpenProxyTagFormat;
-        public string OpenProxyTagFormat {
+        private string OpenProxyTagFormat {
             get {
-                return mOpenProxyTagFormat;
-            }
-            set {
-                this.SetProxyTagFormat(value, true);
+                return this.ProxyTagDelimiter.GetOpenTagFormat();
             }
         }
-
-        private string mCloseProxyTagFormat;
-        public string CloseProxyTagFormat {
+         
+        private string CloseProxyTagFormat {
             get {
-                return mCloseProxyTagFormat;
-            }
-            set {
-                this.SetProxyTagFormat(value, false);
+                return this.ProxyTagDelimiter.GetCloseTagFormat();
             }
         }
 
-        private void SetProxyTagFormat(string value, bool isForOpenTag) {
-
-            if (value != null) {
-                if (value.StartsWith("{")) {
-                    throw new ArgumentException("Format cannot start with \"{\" character");
-                }
-                if (value.EndsWith("{")) {
-                    throw new ArgumentException("Format cannot end with \"{\" character");
-                }
-                if (!value.Contains("{0}")) {
-                    throw new ArgumentException("Format must contain one placeholder in the form \"{0}\"");
-                }
-
-                if (Regex.Matches(value, "{[0-9]}").Count > 1) {
-                    throw new ArgumentException("Format must not contain more than one placeholder in the form \"{0}\"");
-                }
-
-                if (value.Contains("<") || value.Contains(">")) {
-                    throw new ArgumentException("Format must not contain \"<\" nor \">\" characters");
-                }
-            }
-
-            if (isForOpenTag) {
-                this.mOpenProxyTagFormat = value;
-            }
-            else {
-                this.mCloseProxyTagFormat = value;
-            }
-        }
+        public ProxyTagDelimiter ProxyTagDelimiter { get; set; }
 
         /// <summary>
-        /// e.g. [b]
+        /// See ProxyTagDelimiterExtensions class for supported tag formats
         /// </summary>
         public string OpenProxyTag {
             get {
@@ -92,7 +55,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         }
 
         /// <summary>
-        /// e.g. [/b]
+        /// See ProxyTagDelimiterExtensions class for supported tag formats
         /// </summary>
         public string CloseProxyTag {
             get {

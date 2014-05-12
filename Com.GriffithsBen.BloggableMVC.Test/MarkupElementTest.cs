@@ -173,9 +173,9 @@ namespace Com.GriffithsBen.BloggableMVC.Test {
             string value = "[p]Valid markup[/p]Valid markup";
 
             new ElementEnclosesReporter(element: this.pElement,
-                                             trueBetweenIndices: new int[] { 3, 15 },
-                                             value: value)
-                                                          .Report();
+                                                 trueBetweenIndices: new int[] { 3, 15 },
+                                                 value: value)
+                                                              .Report();
 
             value = "[p]Valid [b]markup[/b][/p]Valid markup";
 
