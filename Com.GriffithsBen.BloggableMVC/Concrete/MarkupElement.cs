@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Com.GriffithsBen.BloggableMVC.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,6 +12,9 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
     /// of tags to open and close the element.
     /// </summary>
     public class MarkupElement {
+
+        private string OpenProxyTagFormat { get; set; }
+        private string CloseProxyTagFormat { get; set; }
 
         /// <summary>
         /// The name of the element to be used when marking up blog content by the user
@@ -26,23 +30,25 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         public MarkupElement(string proxyElementName, string htmlElementName) {
             this.ProxyElement = proxyElementName;
             this.HtmlElement = htmlElementName;
+            this.OpenProxyTagFormat = MarkupConfiguration.OpenProxyTagFormat;
+            this.CloseProxyTagFormat = MarkupConfiguration.CloseProxyTagFormat;
         }
 
         /// <summary>
         /// e.g. [b]
         /// </summary>
-        private string OpenProxyTag {
+        public string OpenProxyTag {
             get {
-                return string.Format("[{0}]", this.ProxyElement);
+                return string.Format(this.OpenProxyTagFormat, this.ProxyElement);
             }
         }
 
         /// <summary>
         /// e.g. [/b]
         /// </summary>
-        private string CloseProxyTag {
+        public string CloseProxyTag {
             get {
-                return string.Format("[/{0}]", this.ProxyElement);
+                return string.Format(this.CloseProxyTagFormat, this.ProxyElement);
             }
         }
 

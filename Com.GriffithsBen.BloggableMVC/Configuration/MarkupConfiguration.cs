@@ -11,6 +11,8 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
 
         static MarkupConfiguration() {
             MarkupConfiguration.MarkupElements = MarkupConfiguration.DefaultMarkupElements;
+            MarkupConfiguration.OpenProxyTagFormat = "[{0}]";
+            MarkupConfiguration.CloseProxyTagFormat = "[/{0}]";
         }
 
         private static List<MarkupElement> DefaultMarkupElements = new List<MarkupElement>() {
@@ -19,6 +21,9 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
             new MarkupElement("p", "p"),
             new MarkupElement("quote", "blockquote")
         };
+
+        public static string OpenProxyTagFormat { get; set; }
+        public static string CloseProxyTagFormat { get; set; }
 
         /// <summary>
         /// The static collection of markup elements that will be used to initialise the MarkUpElements collection

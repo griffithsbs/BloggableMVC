@@ -49,7 +49,6 @@
     <Compile Include="Configuration\MarkupConfiguration.cs" />
     <Compile Include="Concrete\MarkupElement.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
