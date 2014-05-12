@@ -135,8 +135,37 @@ namespace Com.GriffithsBen.BloggableMVC.Test {
                                              trueBetweenIndices: new int[] { 10, value.Length },
                                              value: value)
                                                           .Report();
-            
-            // TODO test with invalid markup
+
+
+            value = "Invalid[/quote] note space[p][b][/b][/p]Invalid [b]markup[/b][/p]Invalid markup";
+
+            new TagEnclosesReporter(element: this.pElement,
+                                                  trueBetweenIndices: new int[] { 26, 40 },
+                                                  value: value)
+                                                               .Report();
+
+            new TagEnclosesReporter(element: this.bElement,
+                                             trueBetweenIndices: new int[] { 29, 36, 48, 61 },
+                                             value: value)
+                                                          .Report();
+
+            new TagEnclosesReporter(element: this.quoteElement,
+                                             trueBetweenIndices: new int[0],
+                                             value: value)
+                                                          .Report();
+
+            value = "[p]Valid [b]markup[/b][/p]Invalid markup[/p]";
+
+            new TagEnclosesReporter(element: this.pElement,
+                                                 trueBetweenIndices: new int[] { 0, 26 },
+                                                 value: value)
+                                                              .Report();
+
+            new TagEnclosesReporter(element: this.bElement,
+                                             trueBetweenIndices: new int[] { 9, 22 },
+                                             value: value)
+                                                          .Report();
+
         }
 
         [TestMethod]
@@ -265,7 +294,18 @@ namespace Com.GriffithsBen.BloggableMVC.Test {
                                              value: value)
                                                           .Report();
 
-            // TODO further tests with invalid markup
+            value = "[p]Valid [b]markup[/b][/p]Invalid markup[/p]";
+
+            new ElementEnclosesReporter(element: this.pElement,
+                                                 trueBetweenIndices: new int[] { 3, 22 },
+                                                 value: value)
+                                                              .Report();
+
+            new ElementEnclosesReporter(element: this.bElement,
+                                             trueBetweenIndices: new int[] { 12, 18 },
+                                             value: value)
+                                                          .Report();
+
         }
 
         [TestMethod]
