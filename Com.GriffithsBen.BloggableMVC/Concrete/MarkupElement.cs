@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Com.GriffithsBen.BloggableMVC.Concrete {
     /// <summary>
@@ -12,9 +13,6 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
     /// of tags to open and close the element.
     /// </summary>
     public class MarkupElement {
-
-        private string OpenProxyTagFormat { get; set; }
-        private string CloseProxyTagFormat { get; set; }
 
         /// <summary>
         /// The name of the element to be used when marking up blog content by the user
@@ -32,6 +30,56 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
             this.HtmlElement = htmlElementName;
             this.OpenProxyTagFormat = MarkupConfiguration.OpenProxyTagFormat;
             this.CloseProxyTagFormat = MarkupConfiguration.CloseProxyTagFormat;
+        }
+
+        private string mOpenProxyTagFormat;
+        public string OpenProxyTagFormat {
+            get {
+                return mOpenProxyTagFormat;
+            }
+            set {
+                this.SetProxyTagFormat(value, true);
+            }
+        }
+
+        private string mCloseProxyTagFormat;
+        public string CloseProxyTagFormat {
+            get {
+                return mCloseProxyTagFormat;
+            }
+            set {
+                this.SetProxyTagFormat(value, false);
+            }
+        }
+
+        private void SetProxyTagFormat(string value, bool isForOpenTag) {
+
+            if (value != null) {
+                if (value.StartsWith("{")) {
+                    throw new ArgumentException("Format cannot start with \"{\" character");
+                }
+                if (value.EndsWith("{")) {
+                    throw new ArgumentException("Format cannot end with \"{\" character");
+                }
+                if (!value.Contains("{0}")) {
+                    throw new ArgumentException("Format must contain one placeholder in the form \"{0}\"");
+                }
+
+                if (Regex.Matches(value, "{[0-9]}").Count > 1) {
+                    throw new ArgumentException("Format must not contain more than one placeholder in the form \"{0}\"");
+                }
+
+                if (value.Contains("<") || value.Contains(">")) {
+                    throw new ArgumentException("Format must not contain \"<\" nor \">\" characters");
+                }
+            }
+
+            if (isForOpenTag) {
+                this.mOpenProxyTagFormat = value;
+            }
+            else {
+                this.mCloseProxyTagFormat = value;
+            }
         }
 
         /// <summary>
