@@ -1,10 +1,6 @@
 ﻿using Com.GriffithsBen.BloggableMVC.Abstract;
-using Com.GriffithsBen.BloggableMVC.Concrete;
-using Com.GriffithsBen.BloggableMVC.Configuration;
-using Com.GriffithsBen.BloggableMVC.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace Com.GriffithsBen.BloggableMVC.Concrete {

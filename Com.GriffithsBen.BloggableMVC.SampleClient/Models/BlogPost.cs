@@ -1,8 +1,6 @@
 ﻿using Com.GriffithsBen.BloggableMVC.Abstract;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Com.GriffithsBen.BloggableMVC.SampleClient.Models {
 

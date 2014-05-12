@@ -1,10 +1,7 @@
 ﻿using Com.GriffithsBen.BloggableMVC.Concrete;
 using Com.GriffithsBen.BloggableMVC.SampleClient.Models;
 using Com.GriffithsBen.BloggableMVC.SampleClient.Repository;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Com.GriffithsBen.BloggableMVC.SampleClient.Controllers {
