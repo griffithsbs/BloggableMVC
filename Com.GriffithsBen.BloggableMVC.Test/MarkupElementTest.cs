@@ -136,9 +136,9 @@ namespace Com.GriffithsBen.BloggableMVC.Test {
             value = "Invalid[/quote] note space[p][b][/b][/p]Invalid [b]markup[/b][/p]Invalid markup";
 
             new EnclosesReporter(element: this.pElement,
-                                                  trueBetweenIndices: new int[] { 26, 40 },
-                                                  value: value)
-                                                               .Report();
+                                               trueBetweenIndices: new int[] { 26, 40 },
+                                               value: value)
+                                                            .Report();
 
             new EnclosesReporter(element: this.bElement,
                                              trueBetweenIndices: new int[] { 29, 36, 48, 61 },
@@ -302,6 +302,16 @@ namespace Com.GriffithsBen.BloggableMVC.Test {
                                              value: value)
                                                           .Report();
 
+        }
+
+        [TestMethod]
+        public void StartTagEnclosesTest() {
+            Assert.Fail("TODO not implemented");
+        }
+
+        [TestMethod]
+        public void EndTagEnclosesTest() {
+            Assert.Fail("TODO not implemented");
         }
 
         [TestMethod]

@@ -80,7 +80,8 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
 
             // find out which, if any, tag will be 'broken' by truncating the string
             // i.e. does the end of the substring to be taken fall inside an instance of one of the tags?
-            MarkupElement brokenTag = null;
+            MarkupElement brokenStartTag = null;
+            MarkupElement brokenEndTag = null;
 
             // also find out which, if any, elements will be 'broken' by truncating the string
             // i.e. does the end of the substring to be taken fall inside an instance of one or more of the elements?
@@ -88,13 +89,18 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
 
             if (this.MarkupElements != null) {
                 foreach (MarkupElement element in this.MarkupElements) {
-                    if (element.Encloses(result, length - 1)) {
 
-                        if (element.ElementEncloses(result, length - 1)) {
-                            brokenElements.Add(element);
+                    if (element.StartTagEncloses(result, length - 1)) {
+                        brokenStartTag = element;
+                    }
+                    else {
+                        if (element.EndTagEncloses(result, length - 1)) {
+                            brokenEndTag = element;
                         }
                         else {
-                            brokenTag = element;
+                            if (element.Encloses(result, length - 1)) {
+                                brokenElements.Add(element);
+                            }
                         }
                     }
                 }
@@ -102,13 +108,18 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
 
             result = result.Substring(0, length);
 
-            // if there is a broken tag on the end of the result, fix it
-            // TODO it could be a start tag or an end tag that is broken
-            // if a start tag, it needs to be removed rather than fixed
-            if (brokenTag != null) {
-                int startOfBrokenTag = result.LastIndexOf(brokenTag.ProxyTagDelimiter.GetOpeningCharacter());
+            // if there is a broken tag on the end of the result, fix it (if it's an end tag)
+            // or remove it (if it's a start tag)
+            if (brokenStartTag != null) {
+                int startOfBrokenTag = result.LastIndexOf(brokenStartTag.ProxyTagDelimiter.GetOpeningCharacter());
                 result = result.Substring(0, startOfBrokenTag);
-                result = brokenTag.AppendProxyEndTagTo(result);
+            }
+            else {
+                if (brokenEndTag != null) {
+                    int startOfBrokenTag = result.LastIndexOf(brokenEndTag.ProxyTagDelimiter.GetOpeningCharacter());
+                    result = result.Substring(0, startOfBrokenTag);
+                    result = brokenEndTag.AppendProxyEndTagTo(result);
+                }
             }
 
             // add a closing tag for each of the broken elements

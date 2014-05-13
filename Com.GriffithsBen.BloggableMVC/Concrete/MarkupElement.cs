@@ -171,6 +171,46 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
             return false;
         }
 
+        private bool TagEncloses(string target, int index, string tag) {
+            if (target == null) {
+                throw new NullReferenceException("target");
+            }
+            if (index < 0) {
+                throw new ArgumentException("index cannot be less than zero");
+            }
+            if (index >= target.Length) {
+                throw new ArgumentException("index must be less than target length");
+            }
+
+            while (target.Length > 0) {
+
+                int startIndex = target.IndexOf(tag);
+
+                if (startIndex == -1) {
+                    // no tag found in the remainder of the string
+                    return false;
+                }
+
+                int endIndex = startIndex + tag.Length;
+                
+                if (index >= startIndex && index < endIndex) {
+                    return true;
+                }
+
+                if (target.Length <= (endIndex + 1)) {
+                    return false;
+                }
+
+                // check the remainder of the string
+                target = target.Substring(endIndex + 1);
+                // reduce the index in proportion to the change in length of the target
+                index -= (endIndex + 1);
+
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Returns true if the index within the target string is between the start and end tags of 
         /// an instance of this MarkupElement, including within the start and end tags themselves
@@ -190,6 +230,14 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         /// <returns></returns>
         internal bool ElementEncloses(string target, int index) {
             return this.Encloses(target, index, false);
+        }
+
+        internal bool StartTagEncloses(string target, int index) {
+            return this.TagEncloses(target, index, this.OpenProxyTag);
+        }
+
+        internal bool EndTagEncloses(string target, int index) {
+            return this.TagEncloses(target, index, this.CloseProxyTag);
         }
     }
 }
