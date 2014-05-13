@@ -7,9 +7,9 @@ using System.Linq.Expressions;
 
 namespace Com.GriffithsBen.BloggableMVC.Test.Helpers {
     /// <summary>
-    /// Helper class for testing the TagEncloses and ElementEncloses methods of the MarkupElement class
+    /// Helper class for testing the Encloses and ElementEncloses methods of the MarkupElement class
     /// </summary>
-    internal abstract class EnclosesReporter {
+    internal abstract class EnclosesReporterBase {
         protected MarkupElement Element { get; set; }
         /// <summary>
         /// For each tuple, the reporter will assert that the expression returns true
@@ -38,7 +38,7 @@ namespace Com.GriffithsBen.BloggableMVC.Test.Helpers {
         /// <summary>
         /// private constructor
         /// </summary>
-        private EnclosesReporter(MarkupElement element,
+        private EnclosesReporterBase(MarkupElement element,
                                 List<Tuple<int, int>> trueBetweenIndices,
                                 string value) {
 
@@ -51,7 +51,7 @@ namespace Com.GriffithsBen.BloggableMVC.Test.Helpers {
         /// For convenience, the indices between which tests should be run are passed in as an array,
         /// simply to make reporter initialisation a little less verbose
         /// </summary>
-        public EnclosesReporter(MarkupElement element,
+        public EnclosesReporterBase(MarkupElement element,
                                 int[] trueBetweenIndices,
                                 string value)
             : this(element, new List<Tuple<int, int>>(), value) {

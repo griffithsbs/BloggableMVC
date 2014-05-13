@@ -2,7 +2,7 @@
 using System.Reflection;
 
 namespace Com.GriffithsBen.BloggableMVC.Test.Helpers {
-    internal class ElementEnclosesReporter : EnclosesReporter {
+    internal class ElementEnclosesReporter : EnclosesReporterBase {
         public ElementEnclosesReporter(MarkupElement element,
                                        int[] trueBetweenIndices,
                                        string value)

@@ -88,7 +88,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
 
             if (this.MarkupElements != null) {
                 foreach (MarkupElement element in this.MarkupElements) {
-                    if (element.TagEncloses(result, length - 1)) {
+                    if (element.Encloses(result, length - 1)) {
 
                         if (element.ElementEncloses(result, length - 1)) {
                             brokenElements.Add(element);
