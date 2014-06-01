@@ -1,7 +1,7 @@
 ﻿using Com.GriffithsBen.BloggableMVC.Configuration;
 using System;
 
-namespace Com.GriffithsBen.BloggableMVC.Concrete {
+namespace Com.GriffithsBen.BloggableMVC.Markup {
     /// <summary>
     /// An element to be used in marking up blog content, consisting of a proxy element to be used by the user
     /// and an HTML element with which the proxy element can be replaced in order to display the marked up content

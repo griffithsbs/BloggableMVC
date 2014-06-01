@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Com.GriffithsBen.BloggableMVC.Markup {
+
+    // TODO rather than having TextNode derive from Element, both should implement an IElement interface
+
     internal class TextNode : Element {
 
         private string Text { get; set; }
@@ -35,14 +38,6 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
         internal override Element Clone() {
             return new TextNode(this.Text);
-        }
-
-        // TODO just for testing
-        public override void PrintToConsole(int depth) {
-            if (depth > 0) {
-                Console.Write(new string('-', depth));
-            }
-            Console.WriteLine(string.Format("{0} - text length {1}", this.Text, this.GetTextLength()));
         }
 
     }

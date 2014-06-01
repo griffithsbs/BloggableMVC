@@ -1,4 +1,5 @@
 ﻿using Com.GriffithsBen.BloggableMVC.Concrete;
+using Com.GriffithsBen.BloggableMVC.Markup;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -146,5 +147,14 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
             MarkupConfiguration.MarkupElements.Remove(targetElement);
         }
 
+        public static MarkupElement GetMarkupElementForMatch(string matchValue) {
+            // TODO matchValue may need to be more complicated depending on how attributes are handled
+            MarkupElement matchedMarkupElement = MarkupConfiguration.MarkupElements.Where(x => x.OpenProxyTag == matchValue)
+                                                                                   .SingleOrDefault();
+            if (matchedMarkupElement == null) {
+                throw new ArgumentException(string.Format("No matching MarkupElement found for matched tag \"{0}\"", matchValue));
+            }
+            return matchedMarkupElement;
+        }
     }
 }

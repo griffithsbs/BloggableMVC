@@ -81,12 +81,11 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             return new MvcHtmlString(tagBuilder.ToString());
         }
 
-        // TODO
-
         public virtual int GetTextLength() {
             return this.Children.Sum(x => x.GetTextLength());
         }
 
+        // TODO
         //public abstract bool IsValid();
 
         /// <summary>
@@ -104,7 +103,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
             // try to find an opening proxy tag in the context string
 
-            Regex regex = MarkupConfiguration.OpeningTagsRegex; //new Regex(@"\[[a-z]*\]"); //MarkupConfiguration.OpeningTagsRegex; //new Regex(@"\[[a-z]*\]"); // TODO... configuration and attributes
+            Regex regex = MarkupConfiguration.OpeningTagsRegex;
 
             // if no opening proxy tag is found in the context,
             // add a new text node child containing the entire context and return
@@ -137,16 +136,18 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
             string proxyName = match.Value.Substring(1, match.Value.Length - 2);
 
-            string endTag = string.Format("[/{0}]", proxyName); // TODO use an instance of MarkupElement
+            MarkupElement matchedMarkupElement = MarkupConfiguration.GetMarkupElementForMatch(match.Value);
+
+            string endTag = matchedMarkupElement.CloseProxyTag;
 
             int endOfMatchedElementContent = context.IndexOf(endTag);
 
             if (endOfMatchedElementContent == -1) {
-                // TODO
+                // TODO - matching end tag not found - therefore markup is invalid.
                 throw new NotImplementedException();
             }
 
-            string startTag = string.Format("[{0}]", proxyName); // TODO us an instance of MarkupElement
+            string startTag = matchedMarkupElement.OpenProxyTag;
             Element matchedElement = new Element(
                 context.Substring(0 + startTag.Length, endOfMatchedElementContent - startTag.Length),
                 proxyName
@@ -190,18 +191,6 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             }
 
             return result;
-        }
-
-        // TODO just for testing
-        public virtual void PrintToConsole(int depth = 0) {
-            if (depth > 0) {
-                Console.Write(new string('-', depth));
-            }
-            Console.WriteLine(string.Format("{0}: {1} children. Total text length: {2}",
-                this.ProxyName, this.Children.Count(), this.GetTextLength()));
-            foreach (Element child in this.Children) {
-                child.PrintToConsole(depth + 1);
-            }
         }
 
     }

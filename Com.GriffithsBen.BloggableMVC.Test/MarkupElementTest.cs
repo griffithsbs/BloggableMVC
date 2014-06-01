@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Com.GriffithsBen.BloggableMVC.Concrete;
 using Com.GriffithsBen.BloggableMVC.Test.Helpers;
+using Com.GriffithsBen.BloggableMVC.Markup;
 
 namespace Com.GriffithsBen.BloggableMVC.Test {
     [TestClass]
