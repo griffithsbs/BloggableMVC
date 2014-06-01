@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -48,11 +49,10 @@
     <Compile Include="Concrete\Markupable.cs" />
     <Compile Include="Concrete\SmartBloggable.cs" />
     <Compile Include="Configuration\MarkupConfiguration.cs" />
-    <Compile Include="Concrete\MarkupElement.cs" />
+    <Compile Include="Markup\MarkupElement.cs" />
     <Compile Include="Configuration\ProxyTagDelimiter.cs" />
     <Compile Include="Configuration\ProxyTagDelimiterExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
-    <Compile Include="Markup\TagConfiguration.cs" />
     <Compile Include="Markup\Element.cs" />
     <Compile Include="Markup\TextNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

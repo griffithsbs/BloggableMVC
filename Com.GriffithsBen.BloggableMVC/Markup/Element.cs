@@ -137,7 +137,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
             string proxyName = match.Value.Substring(1, match.Value.Length - 2);
 
-            string endTag = string.Format("[/{0}]", proxyName); // TODO
+            string endTag = string.Format("[/{0}]", proxyName); // TODO use an instance of MarkupElement
 
             int endOfMatchedElementContent = context.IndexOf(endTag);
 
@@ -146,7 +146,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
                 throw new NotImplementedException();
             }
 
-            string startTag = string.Format("[{0}]", proxyName); // TODO
+            string startTag = string.Format("[{0}]", proxyName); // TODO us an instance of MarkupElement
             Element matchedElement = new Element(
                 context.Substring(0 + startTag.Length, endOfMatchedElementContent - startTag.Length),
                 proxyName
@@ -161,15 +161,11 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             // the closing tag was the end of the context
         }
 
-        public bool ContainsTextIndex(int index) {
-            return index <= this.GetTextLength();
-        }
-
         internal virtual Element Clone() {
             return new Element(this.RawContext, this.ProxyName);
         }
 
-        public virtual Element Slice(int textEndIndex) {
+        public virtual Element Truncate(int textEndIndex, string textToAppend = "...") {
 
             if (textEndIndex >= this.GetTextLength()) {
                 return this.Clone();
@@ -186,7 +182,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
                 int childTextLength = child.GetTextLength();
                 if (totalTextLength + childTextLength > textEndIndex) {
                     // cut-off point is inside this node
-                    result.AddChild(child.Clone().Slice(textEndIndex - totalTextLength));
+                    result.AddChild(child.Clone().Truncate(textEndIndex - totalTextLength, textToAppend));
                     return result;
                 }
                 totalTextLength += childTextLength;

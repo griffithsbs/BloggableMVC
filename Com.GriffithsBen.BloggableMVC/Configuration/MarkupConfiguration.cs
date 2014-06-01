@@ -1,6 +1,7 @@
 ﻿using Com.GriffithsBen.BloggableMVC.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -12,30 +13,24 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
     /// </summary>
     public static class MarkupConfiguration {
 
-        // new from Markup.TagConfiguration:
-
-        private static Dictionary<string, string> Tags { get; set; }
-
-        private static List<string> ProxyTags { // TODO these things will need to have some behaviour rather than just being dumb strings
-            get {
-                return MarkupConfiguration.Tags.Keys.ToList();
-            }
-        }
+        private const string DefaultRootElementProxyName = "p";
 
         private static string OpeningTagsRegexFactor {
             get {
                 StringBuilder builder = new StringBuilder();
 
-                builder.Append(@"\[(");
+                builder.Append(string.Format(@"\{0}(", MarkupConfiguration.ProxyTagDelimiter.GetOpeningCharacter()));
 
-                foreach (string proxy in MarkupConfiguration.ProxyTags) {
+                IEnumerable<string> proxyTags = MarkupConfiguration.MarkupElements.Select(x => x.ProxyElement);
+
+                foreach (string proxy in proxyTags) {
                     builder.Append(proxy);
-                    if (proxy != MarkupConfiguration.ProxyTags.Last()) {
+                    if (proxy != proxyTags.Last()) {
                         builder.Append(@"|");
                     }
                 }
 
-                builder.Append(@")\]");
+                builder.Append(string.Format(@")\{0}", MarkupConfiguration.ProxyTagDelimiter.GetClosingCharacter()));
 
                 return builder.ToString();
             }
@@ -48,29 +43,24 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
         }
 
         public static string GetHtmlNameFor(string proxyName) {
-            return MarkupConfiguration.Tags[proxyName];
-        }
-
-        public static string RootElementProxyName {
-            get {
-                return "p";
+            MarkupElement tag = MarkupConfiguration.MarkupElements.Where(x => x.ProxyElement == proxyName).SingleOrDefault();
+            if (tag == null) {
+                throw new ArgumentException(string.Format("No tag found with proxy name {0}", proxyName));
             }
+            return tag.HtmlElement;
         }
+        
+        // TODO should maybe make this a tag rather than just a dumb string?
+        public static string RootElementProxyName { get; private set; }
 
-        // pre-existing - TODO tidy
-
+        // TODO tidy
 
         static MarkupConfiguration() {
             MarkupConfiguration.MarkupElements = MarkupConfiguration.DefaultMarkupElements;
-            MarkupConfiguration.ProxyTagDelimiter = ProxyTagDelimiter.SquareBracket;
-
-            // TODO
-            MarkupConfiguration.Tags = new Dictionary<string, string>();
-            Tags.Add("tag", "div");
-            Tags.Add("p", "p");
-            Tags.Add("i", "i");
-            Tags.Add("quote", "blockquote");
-
+            MarkupConfiguration.ProxyTagDelimiter = ProxyTagDelimiter.SquareBracket; // TODO make configurable
+            MarkupConfiguration.RootElementProxyName = 
+                ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.RootElementProxyName"]
+                ?? MarkupConfiguration.DefaultRootElementProxyName;
         }
 
         private static List<MarkupElement> DefaultMarkupElements = new List<MarkupElement>() {
@@ -87,6 +77,9 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
         private static List<MarkupElement> MarkupElements { get; set; }
 
         public static ProxyTagDelimiter ProxyTagDelimiter { get; set; }
+
+        /// <summary>
+        /// CopyMarkupElements
         /// </summary>
         /// <returns>a new collection of markup elements, cloned from MarkupElementConfiguration.MarkupElements</returns>
         public static IEnumerable<MarkupElement> CopyMarkupElements() {

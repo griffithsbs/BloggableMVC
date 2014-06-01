@@ -22,11 +22,11 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             return this.Text.Length;
         }
 
-        public override Element Slice(int textEndIndex) {
+        public override Element Truncate(int textEndIndex, string textToAppend = "...") {
             if (textEndIndex >= this.GetTextLength()) {
                 return this.Clone();
             }
-            return new TextNode(this.Text.Substring(0, textEndIndex));
+            return new TextNode(string.Format("{0}{1}", this.Text.Substring(0, textEndIndex), textToAppend));
         }
 
         public override MvcHtmlString GetHtml() {
