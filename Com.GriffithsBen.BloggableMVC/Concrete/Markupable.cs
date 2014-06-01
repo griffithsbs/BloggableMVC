@@ -14,11 +14,15 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         /// </summary>
         private IMarkupable MarkupableContent { get; set; }
 
+        // the parsed markup
+        public MarkupElement Markup { get; private set; }
+
         public IEnumerable<MarkupElement> MarkupElements { get; private set; }
 
         public Markupable(IMarkupable markupableContent) {
             this.MarkupableContent = markupableContent;
             this.MarkupElements = MarkupConfiguration.CopyMarkupElements();
+            this.Markup = new MarkupElement(markupableContent.Content, MarkupConfiguration.RootElementProxyName);
         }
 
         /// <summary>

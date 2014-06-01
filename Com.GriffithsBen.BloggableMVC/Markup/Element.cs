@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Com.GriffithsBen.BloggableMVC.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,7 +45,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             this.Children = new List<Element>();
             // TODO this.Attributes = new List<ElementAttribute>();
             this.ProxyName = proxyName;
-            this.HtmlName = TagConfiguration.GetHtmlNameFor(proxyName);
+            this.HtmlName = MarkupConfiguration.GetHtmlNameFor(proxyName);
             this.Interpret(context);
         }
 
@@ -103,7 +104,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
             // try to find an opening proxy tag in the context string
 
-            Regex regex = TagConfiguration.OpeningTagsRegex; //new Regex(@"\[[a-z]*\]"); //MarkupConfiguration.OpeningTagsRegex; //new Regex(@"\[[a-z]*\]"); // TODO... configuration and attributes
+            Regex regex = MarkupConfiguration.OpeningTagsRegex; //new Regex(@"\[[a-z]*\]"); //MarkupConfiguration.OpeningTagsRegex; //new Regex(@"\[[a-z]*\]"); // TODO... configuration and attributes
 
             // if no opening proxy tag is found in the context,
             // add a new text node child containing the entire context and return

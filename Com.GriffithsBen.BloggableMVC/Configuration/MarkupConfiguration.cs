@@ -1,6 +1,9 @@
 ﻿using Com.GriffithsBen.BloggableMVC.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Com.GriffithsBen.BloggableMVC.Configuration {
 
@@ -9,9 +12,65 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
     /// </summary>
     public static class MarkupConfiguration {
 
+        // new from Markup.TagConfiguration:
+
+        private static Dictionary<string, string> Tags { get; set; }
+
+        private static List<string> ProxyTags { // TODO these things will need to have some behaviour rather than just being dumb strings
+            get {
+                return MarkupConfiguration.Tags.Keys.ToList();
+            }
+        }
+
+        private static string OpeningTagsRegexFactor {
+            get {
+                StringBuilder builder = new StringBuilder();
+
+                builder.Append(@"\[(");
+
+                foreach (string proxy in MarkupConfiguration.ProxyTags) {
+                    builder.Append(proxy);
+                    if (proxy != MarkupConfiguration.ProxyTags.Last()) {
+                        builder.Append(@"|");
+                    }
+                }
+
+                builder.Append(@")\]");
+
+                return builder.ToString();
+            }
+        }
+
+        public static Regex OpeningTagsRegex {
+            get {
+                return new Regex(MarkupConfiguration.OpeningTagsRegexFactor);
+            }
+        }
+
+        public static string GetHtmlNameFor(string proxyName) {
+            return MarkupConfiguration.Tags[proxyName];
+        }
+
+        public static string RootElementProxyName {
+            get {
+                return "p";
+            }
+        }
+
+        // pre-existing - TODO tidy
+
+
         static MarkupConfiguration() {
             MarkupConfiguration.MarkupElements = MarkupConfiguration.DefaultMarkupElements;
             MarkupConfiguration.ProxyTagDelimiter = ProxyTagDelimiter.SquareBracket;
+
+            // TODO
+            MarkupConfiguration.Tags = new Dictionary<string, string>();
+            Tags.Add("tag", "div");
+            Tags.Add("p", "p");
+            Tags.Add("i", "i");
+            Tags.Add("quote", "blockquote");
+
         }
 
         private static List<MarkupElement> DefaultMarkupElements = new List<MarkupElement>() {
