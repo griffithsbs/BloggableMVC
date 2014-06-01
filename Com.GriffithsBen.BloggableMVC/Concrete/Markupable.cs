@@ -53,7 +53,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         }
 
         public MvcHtmlString TruncateContentHtml(int length) {
-            return this.Markup.Truncate(length).GetHtml();
+            return this.Markup.Truncate(length, MarkupConfiguration.SynopsisEnd).GetHtml();
         }
 
     }

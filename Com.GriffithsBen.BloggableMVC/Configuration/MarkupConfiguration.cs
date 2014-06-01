@@ -15,6 +15,8 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
 
         private const string DefaultRootElementProxyName = "p";
 
+        private const string DefaultSynopsisEnd = "...";
+
         private static string OpeningTagsRegexFactor {
             get {
                 StringBuilder builder = new StringBuilder();
@@ -53,6 +55,11 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
         // TODO should maybe make this a tag rather than just a dumb string?
         public static string RootElementProxyName { get; private set; }
 
+        /// <summary>
+        /// The string to append to the end of the truncated content of a text node
+        /// </summary>
+        public static string SynopsisEnd { get; set; }
+
         // TODO tidy
 
         static MarkupConfiguration() {
@@ -61,6 +68,9 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
             MarkupConfiguration.RootElementProxyName = 
                 ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.RootElementProxyName"]
                 ?? MarkupConfiguration.DefaultRootElementProxyName;
+            MarkupConfiguration.SynopsisEnd =
+                ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.SynopsisEnd"]
+                ?? MarkupConfiguration.DefaultSynopsisEnd;
         }
 
         private static List<MarkupElement> DefaultMarkupElements = new List<MarkupElement>() {
