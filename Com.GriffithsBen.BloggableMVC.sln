@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.GriffithsBen.BloggableM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.GriffithsBen.BloggableMVC.Test", "Com.GriffithsBen.BloggableMVC.Test\Com.GriffithsBen.BloggableMVC.Test.csproj", "{277E067A-68D8-46CA-AAFC-9CD0922A04CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.GriffithsBen.BloggableMVC.Web", "Com.GriffithsBen.BloggableMVC.Web\Com.GriffithsBen.BloggableMVC.Web.csproj", "{F4E2A2A5-3EF9-4070-873A-BD1319F2E2E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{277E067A-68D8-46CA-AAFC-9CD0922A04CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{277E067A-68D8-46CA-AAFC-9CD0922A04CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{277E067A-68D8-46CA-AAFC-9CD0922A04CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4E2A2A5-3EF9-4070-873A-BD1319F2E2E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4E2A2A5-3EF9-4070-873A-BD1319F2E2E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4E2A2A5-3EF9-4070-873A-BD1319F2E2E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4E2A2A5-3EF9-4070-873A-BD1319F2E2E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,6 +13,7 @@ namespace Com.GriffithsBen.BloggableMVC.SampleClient {
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/Bloggable.css",
                       "~/Content/Site.css"));
 
             // Set EnableOptimizations to false for debugging. For more information,
