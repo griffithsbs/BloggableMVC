@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Com.GriffithsBen.BloggableMVC.Markup {
 
-    public class Element {
+    public class Element : IElement {
 
         private string ProxyName { get; set; }
 
@@ -30,7 +30,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
         private string RawContext { get; set; }
 
-        private List<Element> Children { get; set; }
+        private List<IElement> Children { get; set; }
 
         // TODO protected List<ElementAttribute> Attributes { get; set; }
 
@@ -42,14 +42,14 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
         public Element(string context, string proxyName) {
             this.RawContext = context;
-            this.Children = new List<Element>();
+            this.Children = new List<IElement>();
             // TODO this.Attributes = new List<ElementAttribute>();
             this.ProxyName = proxyName;
             this.HtmlName = MarkupConfiguration.GetHtmlNameFor(proxyName);
             this.Interpret(context);
         }
 
-        private void AddChild(Element child) {
+        private void AddChild(IElement child) {
             this.Children.Add(child);
         }
 
@@ -74,7 +74,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             //    tagBuilder.MergeAttribute(attribute.HtmlName, attribute.Value);
             //}
             StringBuilder content = new StringBuilder();
-            foreach (Element child in this.Children) {
+            foreach (IElement child in this.Children) {
                 content.Append(child.GetHtml());
             }
             tagBuilder.InnerHtml = content.ToString();
@@ -86,7 +86,9 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
         }
 
         // TODO
-        //public abstract bool IsValid();
+        bool IElement.IsValid() {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// 
@@ -108,7 +110,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             // if no opening proxy tag is found in the context,
             // add a new text node child containing the entire context and return
             if (!regex.IsMatch(context)) {
-                Element textNode = new TextNode(context);
+                IElement textNode = new TextNode(context);
                 this.AddChild(textNode);
                 return;
             }
@@ -125,7 +127,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             // and remove that portion of context from the start of the string
 
             if (match.Index != 0) {
-                Element textNode = new TextNode(context.Substring(0, match.Index));
+                IElement textNode = new TextNode(context.Substring(0, match.Index));
                 this.AddChild(textNode);
                 context = context.Substring(match.Index);
             }
@@ -162,24 +164,28 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             // the closing tag was the end of the context
         }
 
-        internal virtual Element Clone() {
+        IElement IElement.Clone() {
             return new Element(this.RawContext, this.ProxyName);
         }
 
-        public virtual Element Truncate(int textEndIndex, string textToAppend = "...") {
+        IElement IElement.Truncate(int textEndIndex) {
+            return (this as IElement).Truncate(textEndIndex, "...");
+        }
+
+        IElement IElement.Truncate(int textEndIndex, string textToAppend) {
 
             if (textEndIndex >= this.GetTextLength()) {
-                return this.Clone();
+                return (this as IElement).Clone();
             }
 
             Element result = new Element(string.Empty, this.ProxyName);
 
             int totalTextLength = 0;
 
-            List<Element>.Enumerator enumerator = this.Children.GetEnumerator();
+            List<IElement>.Enumerator enumerator = this.Children.GetEnumerator();
 
             while (enumerator.MoveNext()) {
-                Element child = enumerator.Current;
+                IElement child = enumerator.Current;
                 int childTextLength = child.GetTextLength();
                 if (totalTextLength + childTextLength > textEndIndex) {
                     // cut-off point is inside this node

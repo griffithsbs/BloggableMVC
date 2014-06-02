@@ -9,7 +9,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
     // TODO rather than having TextNode derive from Element, both should implement an IElement interface
 
-    internal class TextNode : Element {
+    internal class TextNode : IElement {
 
         private string Text { get; set; }
 
@@ -21,24 +21,36 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             return this.Text;
         }
 
-        public override int GetTextLength() {
+        public IElement Clone() {
+            return new TextNode(this.Text);
+        }
+
+        int IElement.GetTextLength() {
             return this.Text.Length;
         }
 
-        public override Element Truncate(int textEndIndex, string textToAppend = "...") {
-            if (textEndIndex >= this.GetTextLength()) {
+        MvcHtmlString IElement.GetHtml() {
+            return new MvcHtmlString(this.Text);
+        }
+
+        bool IElement.IsValid() {
+            throw new NotImplementedException();
+        }
+
+        IElement IElement.Truncate(int textEndIndex) {
+            return (this as IElement).Truncate(textEndIndex, "...");
+        }
+
+        IElement IElement.Truncate(int textEndIndex, string textToAppend) {
+            if (textEndIndex >= this.Text.Length) {
                 return this.Clone();
             }
             return new TextNode(string.Format("{0}{1}", this.Text.Substring(0, textEndIndex), textToAppend));
         }
 
-        public override MvcHtmlString GetHtml() {
-            return new MvcHtmlString(this.Text);
-        }
+        
 
-        internal override Element Clone() {
-            return new TextNode(this.Text);
-        }
+        
 
     }
 }

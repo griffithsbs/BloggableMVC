@@ -16,7 +16,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         private IMarkupable MarkupableContent { get; set; }
 
         // the parsed markup
-        public Element Markup { get; private set; }
+        public IElement Markup { get; private set; }
 
         public IEnumerable<MarkupElement> MarkupElements { get; private set; }
 
