@@ -49,7 +49,9 @@
     <Compile Include="Concrete\Markupable.cs" />
     <Compile Include="Concrete\SmartBloggable.cs" />
     <Compile Include="Configuration\MarkupConfiguration.cs" />
+    <Compile Include="Markup\ElementAttribute.cs" />
     <Compile Include="Markup\IElement.cs" />
+    <Compile Include="Markup\MarkupAttribute.cs" />
     <Compile Include="Markup\MarkupElement.cs" />
     <Compile Include="Configuration\ProxyTagDelimiter.cs" />
     <Compile Include="Configuration\ProxyTagDelimiterExtensions.cs" />

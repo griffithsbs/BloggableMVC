@@ -18,6 +18,8 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
 
         private const string DefaultSynopsisEnd = "...";
 
+        //private static Dictionary<string, List<MarkupAttribute>> AttributesForElements { get; set; }
+
         private static string OpeningTagsRegexFactor {
             get {
                 StringBuilder builder = new StringBuilder();
@@ -61,21 +63,34 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
         /// </summary>
         public static string SynopsisEnd { get; set; }
 
+        //public static List<MarkupAttribute> GetValidAttributesForElement(string elementProxyName) {
+        //    return MarkupConfiguration.AttributesForElements[elementProxyName];
+        //}
+
         // TODO tidy
 
         static MarkupConfiguration() {
             MarkupConfiguration.MarkupElements = MarkupConfiguration.DefaultMarkupElements;
             MarkupConfiguration.ProxyTagDelimiter = ProxyTagDelimiter.SquareBracket; // TODO make configurable
+            
             MarkupConfiguration.RootElementProxyName = 
                 ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.RootElementProxyName"]
                 ?? MarkupConfiguration.DefaultRootElementProxyName;
+            
             MarkupConfiguration.SynopsisEnd =
                 ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.SynopsisEnd"]
                 ?? MarkupConfiguration.DefaultSynopsisEnd;
+
+            //MarkupConfiguration.AttributesForElements = new Dictionary<string, List<MarkupAttribute>>();
+            //AttributesForElements.Add("link", new List<MarkupAttribute>() { 
+            //    new MarkupAttribute("url"),
+            //    new MarkupAttribute("title")
+            //});
+
         }
 
         private static List<MarkupElement> DefaultMarkupElements = new List<MarkupElement>() {
-            new MarkupElement("b", "em"),
+            new MarkupElement("b", "span class=\"bold\""),
             new MarkupElement("i", "i"),
             new MarkupElement("p", "p"),
             new MarkupElement("quote", "blockquote")

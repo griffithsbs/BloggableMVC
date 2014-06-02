@@ -149,7 +149,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
                 throw new NotImplementedException();
             }
 
-            string startTag = matchedMarkupElement.OpenProxyTag;
+            string startTag = match.Value;
             Element matchedElement = new Element(
                 context.Substring(0 + startTag.Length, endOfMatchedElementContent - startTag.Length),
                 proxyName

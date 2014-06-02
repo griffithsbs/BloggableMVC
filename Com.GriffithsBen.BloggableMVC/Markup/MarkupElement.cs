@@ -1,5 +1,6 @@
 ﻿using Com.GriffithsBen.BloggableMVC.Configuration;
 using System;
+using System.Collections.Generic;
 
 namespace Com.GriffithsBen.BloggableMVC.Markup {
     /// <summary>
@@ -22,10 +23,13 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
         /// </summary>
         public string HtmlElement { get; private set; }
 
+        public List<MarkupAttribute> ValidAttributes { get; private set; }
+
         public MarkupElement(string proxyElementName, string htmlElementName) {
             this.ProxyElement = proxyElementName;
             this.HtmlElement = htmlElementName;
             this.ProxyTagDelimiter = MarkupConfiguration.ProxyTagDelimiter;
+            //this.ValidAttributes = MarkupConfiguration.GetValidAttributesForElement(this.ProxyElement);
         }
 
         private string OpenProxyTagFormat {
