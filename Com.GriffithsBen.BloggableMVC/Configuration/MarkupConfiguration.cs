@@ -18,24 +18,45 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
 
         private const string DefaultSynopsisEnd = "...";
 
-        //private static Dictionary<string, List<MarkupAttribute>> AttributesForElements { get; set; }
+        private static Dictionary<string, List<MarkupAttribute>> mAttributesForElements;
 
+        private static Dictionary<string, List<MarkupAttribute>> AttributesForElements {
+            get {
+                if (mAttributesForElements == null) {
+                    mAttributesForElements = new Dictionary<string, List<MarkupAttribute>>();
+                        mAttributesForElements.Add("link", new List<MarkupAttribute>() { 
+                        new MarkupAttribute("url", "href"),
+                        new MarkupAttribute("title")
+                    });
+                }
+                return mAttributesForElements;
+            }
+        }
         private static string OpeningTagsRegexFactor {
             get {
                 StringBuilder builder = new StringBuilder();
 
-                builder.Append(string.Format(@"\{0}(", MarkupConfiguration.ProxyTagDelimiter.GetOpeningCharacter()));
+                builder.Append("(");
 
-                IEnumerable<string> proxyTags = MarkupConfiguration.MarkupElements.Select(x => x.ProxyElement);
-
-                foreach (string proxy in proxyTags) {
-                    builder.Append(proxy);
-                    if (proxy != proxyTags.Last()) {
+                foreach (MarkupElement markupElement in MarkupConfiguration.MarkupElements) {
+                    builder.Append(markupElement.OpenProxyTagRegexFactor);
+                    if (markupElement != MarkupElements.Last()) {
                         builder.Append(@"|");
                     }
                 }
 
-                builder.Append(string.Format(@")\{0}", MarkupConfiguration.ProxyTagDelimiter.GetClosingCharacter()));
+                //IEnumerable<string> proxyTags = MarkupConfiguration.MarkupElements.Select(x => x.ProxyElement);
+
+                //foreach (string proxy in proxyTags) {
+                //    builder.Append(proxy);
+                //    if (proxy != proxyTags.Last()) {
+                //        builder.Append(@"|");
+                //    }
+                //}
+
+                builder.Append(")");
+
+                System.Diagnostics.Debug.WriteLine(builder.ToString()); // TODO remove
 
                 return builder.ToString();
             }
@@ -63,9 +84,11 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
         /// </summary>
         public static string SynopsisEnd { get; set; }
 
-        //public static List<MarkupAttribute> GetValidAttributesForElement(string elementProxyName) {
-        //    return MarkupConfiguration.AttributesForElements[elementProxyName];
-        //}
+        public static List<MarkupAttribute> GetValidAttributesForElement(string elementProxyName) {
+            List<MarkupAttribute> attributes = null;
+            MarkupConfiguration.AttributesForElements.TryGetValue(elementProxyName, out attributes);
+            return attributes;
+        }
 
         // TODO tidy
 
@@ -81,19 +104,14 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
                 ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.SynopsisEnd"]
                 ?? MarkupConfiguration.DefaultSynopsisEnd;
 
-            //MarkupConfiguration.AttributesForElements = new Dictionary<string, List<MarkupAttribute>>();
-            //AttributesForElements.Add("link", new List<MarkupAttribute>() { 
-            //    new MarkupAttribute("url"),
-            //    new MarkupAttribute("title")
-            //});
-
         }
 
         private static List<MarkupElement> DefaultMarkupElements = new List<MarkupElement>() {
             new MarkupElement("b", "span class=\"bold\""),
             new MarkupElement("i", "i"),
             new MarkupElement("p", "p"),
-            new MarkupElement("quote", "blockquote")
+            new MarkupElement("quote", "blockquote"),
+            new MarkupElement("link", "a")
         };
 
         /// <summary>

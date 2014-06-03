@@ -16,11 +16,15 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
         public List<string> ValidParentElementNames { get; set; }
 
-        public MarkupAttribute(string proxyName) {
+        public MarkupAttribute(string proxyName) : this(proxyName, proxyName) { }
+
+        public MarkupAttribute(string proxyName, string htmlName) {
             this.ProxyName = proxyName;
-            // TODO set html name
-            this.ValidValues = new List<string>();
-            this.ValidParentElementNames = new List<string>();
+            this.HtmlName = htmlName;
+            // by default, any value is valid
+            this.ValidValues = new List<string>() { "." };
+            // by default, attribute is applicable to all elements
+            this.ValidParentElementNames = new List<string>() { "." };
         }
 
     }
