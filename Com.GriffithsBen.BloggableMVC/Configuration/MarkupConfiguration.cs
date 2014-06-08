@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 namespace Com.GriffithsBen.BloggableMVC.Configuration {
 
     /// <summary>
-    /// 
+    /// Provides application-wide definitions and configuration of markup elements and attributes
     /// </summary>
     public static class MarkupConfiguration {
 
@@ -54,6 +54,45 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
             }
         }
 
+        /// <summary>
+        /// The list of mark up elements that are used by default when parsing marked up content
+        /// </summary>
+        private static List<MarkupElement> DefaultMarkupElements = new List<MarkupElement>() {
+            // TODO decide on list of default markup elements
+            new MarkupElement("b", "span class=\"bold\""),
+            new MarkupElement("i", "i"),
+            new MarkupElement("p", "p"),
+            new MarkupElement("quote", "blockquote"),
+            new MarkupElement("link", "a")
+        };
+
+        /// <summary>
+        /// The static collection of markup elements that will be used to initialise the MarkUpElements collection
+        /// of all new blog entries.
+        /// On initialisation, this is equal to MarkupConfiguration.DefaultMarkupElements
+        /// </summary>
+        private static List<MarkupElement> MarkupElements { get; set; }
+
+        /// <summary>
+        /// Static initialiser
+        /// </summary>
+        static MarkupConfiguration() {
+            MarkupConfiguration.MarkupElements = MarkupConfiguration.DefaultMarkupElements;
+            ProxyTagDelimiter proxyTagDelimiter;
+            Enum.TryParse(ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.ProxyTagDelimiter"] ?? "SquareBracket",
+                          out proxyTagDelimiter);
+            MarkupConfiguration.ProxyTagDelimiter = proxyTagDelimiter;
+
+            MarkupConfiguration.RootElementTagContext =
+                ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.RootElementTagContext"]
+                ?? MarkupConfiguration.DefaultRootElementTagContext;
+
+            MarkupConfiguration.SynopsisEnd =
+                ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.SynopsisEnd"]
+                ?? MarkupConfiguration.DefaultSynopsisEnd;
+
+        }
+
         public static Regex OpeningTagsRegex {
             get {
                 return new Regex(MarkupConfiguration.OpeningTagsRegexFactor);
@@ -89,36 +128,6 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
             MarkupConfiguration.AttributesForElements.TryGetValue(elementProxyName, out attributes);
             return attributes ?? new List<MarkupAttribute>();
         }
-
-        // TODO tidy
-
-        static MarkupConfiguration() {
-            MarkupConfiguration.MarkupElements = MarkupConfiguration.DefaultMarkupElements;
-            MarkupConfiguration.ProxyTagDelimiter = ProxyTagDelimiter.SquareBracket; // TODO make configurable
-            
-            MarkupConfiguration.RootElementTagContext = 
-                ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.RootElementTagContext"]
-                ?? MarkupConfiguration.DefaultRootElementTagContext;
-            
-            MarkupConfiguration.SynopsisEnd =
-                ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.SynopsisEnd"]
-                ?? MarkupConfiguration.DefaultSynopsisEnd;
-
-        }
-
-        private static List<MarkupElement> DefaultMarkupElements = new List<MarkupElement>() {
-            new MarkupElement("b", "span class=\"bold\""),
-            new MarkupElement("i", "i"),
-            new MarkupElement("p", "p"),
-            new MarkupElement("quote", "blockquote"),
-            new MarkupElement("link", "a")
-        };
-
-        /// <summary>
-        /// The static collection of markup elements that will be used to initialise the MarkUpElements collection
-        /// of all new blog entries
-        /// </summary>
-        private static List<MarkupElement> MarkupElements { get; set; }
 
         public static ProxyTagDelimiter ProxyTagDelimiter { get; set; }
 

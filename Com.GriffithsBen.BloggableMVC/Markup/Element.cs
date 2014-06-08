@@ -8,27 +8,24 @@ using System.Web.Mvc;
 
 namespace Com.GriffithsBen.BloggableMVC.Markup {
 
+    /// <summary>
+    /// An instance of a markup element in a parsed content string
+    /// </summary>
     public class Element : IElement {
 
         private string ProxyName { get; set; }
 
         private string HtmlName { get; set; }
 
-        private string OpenProxyTag {
-            // TODO
-            get {
-                return string.Format("[{0}]", this.ProxyName);
-            }
-        }
+        private string OpenProxyTag { get; set; }
 
         private string CloseProxyTag {
-            // TODO
             get {
-                return string.Format("[/{0}]", this.ProxyName);
+                return string.Format(MarkupConfiguration.ProxyTagDelimiter.GetCloseTagFormat(), this.ProxyName);
             }
         }
 
-        private string RawContext { get; set; }
+        private string ContentContext { get; set; }
 
         private List<IElement> Children { get; set; }
 
@@ -41,7 +38,8 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
         protected Element() { }
 
         public Element(string tagContext, string contentContext) {
-            this.RawContext = contentContext;
+            this.OpenProxyTag = tagContext;
+            this.ContentContext = contentContext;
             this.Children = new List<IElement>();
             this.Attributes = new List<ElementAttribute>();
             this.ProxyName = this.InterpretTag(tagContext);
@@ -123,7 +121,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             this.AddChild(matchedElement);
 
             if (endOfMatchedElementContent < context.Length - endTag.Length) {
-                this.Interpret(context.Remove(0, startTag.Length + matchedElement.RawContext.Length + endTag.Length));
+                this.Interpret(context.Remove(0, startTag.Length + matchedElement.ContentContext.Length + endTag.Length));
             }
 
             // the closing tag was the end of the context
@@ -214,7 +212,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
         }
 
         IElement IElement.Clone() {
-            return new Element(this.OpenProxyTag, this.RawContext);
+            return new Element(this.OpenProxyTag, this.ContentContext);
         }
 
         IElement IElement.Truncate(int textEndIndex) {

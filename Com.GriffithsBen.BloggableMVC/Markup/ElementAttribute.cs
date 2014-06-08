@@ -1,12 +1,10 @@
 ﻿using Com.GriffithsBen.BloggableMVC.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Com.GriffithsBen.BloggableMVC.Markup {
 
+    /// <summary>
+    /// An instance of an attribute on a markup element in a parsed content string
+    /// </summary>
     public class ElementAttribute {
 
         public string ProxyName { get; private set; }

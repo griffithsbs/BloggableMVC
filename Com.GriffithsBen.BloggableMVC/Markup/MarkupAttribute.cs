@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Com.GriffithsBen.BloggableMVC.Markup {
 
+    /// <summary>
+    /// The definition of an attribute that can be applied to a markup element
+    /// </summary>
     public class MarkupAttribute {
 
         public string ProxyName { get; private set; }

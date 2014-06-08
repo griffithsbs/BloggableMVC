@@ -1,12 +1,11 @@
 ﻿using Com.GriffithsBen.BloggableMVC.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Com.GriffithsBen.BloggableMVC.Markup {
     /// <summary>
-    /// An element to be used in marking up blog content, consisting of a proxy element to be used by the user
+    /// The definition of an element to be used in marking up blog content, consisting of a proxy element to be used by the user
     /// and an HTML element with which the proxy element can be replaced in order to display the marked up content
     /// as HTML.
     /// It is assumed that all element are non-self-closing, i.e. both proxy and HTML element consist of a pair

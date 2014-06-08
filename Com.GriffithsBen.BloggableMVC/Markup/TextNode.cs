@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Com.GriffithsBen.BloggableMVC.Markup {
 
-    // TODO rather than having TextNode derive from Element, both should implement an IElement interface
-
+    /// <summary>
+    /// An instance of a special case of a markup element: one which contains only text
+    /// </summary>
     internal class TextNode : IElement {
 
         private string Text { get; set; }
