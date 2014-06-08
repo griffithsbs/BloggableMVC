@@ -46,12 +46,16 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
                 if (this.ValidAttributes != null) {
 
-                    // TODO - fix these regexes
-
-                    // add space between element name and name of first attribute
-                    builder.Append(" ");
-
                     foreach (MarkupAttribute attribute in this.ValidAttributes) {
+                        // one or more space characters if not all attributes are optional and this is the first attribute, 
+                        // otherwise zero or more space characters
+                        string spaceRequirement = 
+                            attribute == this.ValidAttributes.First() && this.ValidAttributes.Any(x => !x.IsOptional) ? "+" : "*";
+                        builder.Append(@"[\s]" + spaceRequirement);
+
+                        if (attribute.IsOptional) {
+                            builder.Append("(");
+                        }
 
                         builder.AppendFormat("{0}=", attribute.ProxyName);
 
@@ -69,16 +73,27 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
                             builder.Append(")\"");
                         }
 
-                        builder.Append(@"[\s]+");
+                        if (attribute.IsOptional) {
+                            builder.Append(")?");
+                        }
 
+                        // zero or more space characters
+                        builder.Append(@"[\s]*");
                     }
 
                 }
                 
-
                 builder.AppendFormat(@"[\s]*\{0}", MarkupConfiguration.ProxyTagDelimiter.GetClosingCharacter());
+
                 System.Diagnostics.Debug.WriteLine(builder.ToString()); // TODO remove
-                System.Diagnostics.Debug.WriteLine("Matches {0}: {1}", this.OpenProxyTag, System.Text.RegularExpressions.Regex.IsMatch(this.OpenProxyTag, builder.ToString()));
+                System.Diagnostics.Debug.WriteLine("Matches {0}: {1}", this.OpenProxyTag, 
+                    System.Text.RegularExpressions.Regex.IsMatch(this.OpenProxyTag, builder.ToString())); // TODO remove
+                if (this.ProxyElement == "link") {
+                    string test = "[link url=\"www.google.com\" title=\"Go to Google\"]";
+                    System.Diagnostics.Debug.WriteLine("Matches {0}: {1}", test,
+                    System.Text.RegularExpressions.Regex.IsMatch(test, builder.ToString())); // TODO remove
+                }
+
                 return builder.ToString();
             }
         }

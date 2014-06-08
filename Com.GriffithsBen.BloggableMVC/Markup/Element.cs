@@ -32,7 +32,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
         private List<IElement> Children { get; set; }
 
-        // TODO protected List<ElementAttribute> Attributes { get; set; }
+        private List<ElementAttribute> Attributes { get; set; }
 
         protected string GetProxyTagWithAttributes() {
             return "TODO";
@@ -43,7 +43,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
         public Element(string context, string proxyName) {
             this.RawContext = context;
             this.Children = new List<IElement>();
-            // TODO this.Attributes = new List<ElementAttribute>();
+            this.Attributes = new List<ElementAttribute>();
             this.ProxyName = proxyName;
             this.HtmlName = MarkupConfiguration.GetHtmlNameFor(proxyName);
             this.Interpret(context);
@@ -53,41 +53,8 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             this.Children.Add(child);
         }
 
-        //TODO public void AddAttribute(ElementAttribute attribute) {
-        //    this.Attributes.Add(attribute);
-        //}
-
-        public override string ToString() {
-            StringBuilder builder = new StringBuilder();
-            builder.Append(this.OpenProxyTag);
-            foreach (Element child in this.Children) {
-                builder.Append(child.ToString());
-            }
-            builder.Append(this.CloseProxyTag);
-            return builder.ToString();
-        }
-
-        public virtual MvcHtmlString GetHtml() {
-            TagBuilder tagBuilder = new TagBuilder(this.HtmlName);
-            // TODO
-            //foreach(ElementAttribute attribute in this.Attributes) {
-            //    tagBuilder.MergeAttribute(attribute.HtmlName, attribute.Value);
-            //}
-            StringBuilder content = new StringBuilder();
-            foreach (IElement child in this.Children) {
-                content.Append(child.GetHtml());
-            }
-            tagBuilder.InnerHtml = content.ToString();
-            return new MvcHtmlString(tagBuilder.ToString());
-        }
-
-        public virtual int GetTextLength() {
-            return this.Children.Sum(x => x.GetTextLength());
-        }
-
-        // TODO
-        bool IElement.IsValid() {
-            throw new NotImplementedException();
+        private void AddAttribute(ElementAttribute attribute) {
+            this.Attributes.Add(attribute);
         }
 
         /// <summary>
@@ -96,7 +63,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
         /// <param name="context">the context that remains to be interpreted</param>
         /// <param name="result">the result so far</param>
         /// <returns></returns>
-        internal void Interpret(string context) {
+        private void Interpret(string context) {
 
             // if the context is an empty string, interpretation has finished, so return
             if (context.Length == 0) {
@@ -136,7 +103,9 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             // if the closing tag is not the end of the context, make a recursive call to this.Interpret, passing the
             // remainder of the context, having added intermediateResult as a new child of result
 
-            string proxyName = match.Value.Substring(1, match.Value.Length - 2);
+            
+            // parse any attributes included in the match value and get the proxy name of this element
+            string proxyName = this.InterpretTag(match.Value);
 
             MarkupElement matchedMarkupElement = MarkupConfiguration.GetMarkupElementForMatch(match.Value);
 
@@ -162,6 +131,90 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             }
 
             // the closing tag was the end of the context
+        }
+
+        /// <summary>
+        /// Interprets the given tagText in order to set the proxy tag names of this element and
+        /// the collection of attributes on this element
+        /// </summary>
+        /// <param name="tagText"></param>
+        /// <returns>the interpreted proxy name of the element as per the given tagText</returns>
+        private string InterpretTag(string tagText) {
+
+            bool isInvalid = false;
+
+            MarkupElement matchedElement = MarkupConfiguration.GetMarkupElementForMatch(tagText);
+
+            this.ProxyName = matchedElement.ProxyElement;
+
+            foreach(MarkupAttribute attribute in matchedElement.ValidAttributes) {
+                // only the first declaration of an attribute is parsed
+                // subsquent duplicate declarations are silently ignored
+                int startIndexOfName = tagText.IndexOf(attribute.ProxyName);
+                if (startIndexOfName != -1) {
+
+                    int startIndexOfValue = tagText.IndexOf("=\"", startIndexOfName);
+
+                    if (startIndexOfValue != -1) {
+                        // advance past the equals sign and opening double-quote
+                        startIndexOfValue += 2;
+                        int endIndexOfValue = tagText.IndexOf("\"", startIndexOfValue);
+                        if (endIndexOfValue == -1) {
+                            // last attribute in tag, which is assumeed to end in ">, where represents any proxy tag delimiter
+                            endIndexOfValue = tagText.Length - 2;
+                        }
+                        string value = tagText.Substring(startIndexOfValue, tagText.Length - endIndexOfValue);
+
+                        this.AddAttribute(new ElementAttribute(attribute.ProxyName, value));
+
+                    }
+                    else {
+                        isInvalid = true;
+                    }
+                    
+                }
+                else {
+                    if (!attribute.IsOptional) {
+                        isInvalid = true;
+                    }
+                }
+            }
+
+            // TODO - mark this element as invalid but without throwing exception
+
+            return this.ProxyName;
+        }
+
+        public override string ToString() {
+            StringBuilder builder = new StringBuilder();
+            builder.Append(this.OpenProxyTag);
+            foreach (Element child in this.Children) {
+                builder.Append(child.ToString());
+            }
+            builder.Append(this.CloseProxyTag);
+            return builder.ToString();
+        }
+
+        public virtual MvcHtmlString GetHtml() {
+            TagBuilder tagBuilder = new TagBuilder(this.HtmlName);
+            foreach(ElementAttribute attribute in this.Attributes) {
+                tagBuilder.MergeAttribute(attribute.HtmlName, attribute.HtmlValue);
+            }
+            StringBuilder content = new StringBuilder();
+            foreach (IElement child in this.Children) {
+                content.Append(child.GetHtml());
+            }
+            tagBuilder.InnerHtml = content.ToString();
+            return new MvcHtmlString(tagBuilder.ToString());
+        }
+
+        public virtual int GetTextLength() {
+            return this.Children.Sum(x => x.GetTextLength());
+        }
+
+        // TODO
+        bool IElement.IsValid() {
+            throw new NotImplementedException();
         }
 
         IElement IElement.Clone() {

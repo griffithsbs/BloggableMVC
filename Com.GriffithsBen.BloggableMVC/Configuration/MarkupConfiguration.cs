@@ -45,18 +45,7 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
                     }
                 }
 
-                //IEnumerable<string> proxyTags = MarkupConfiguration.MarkupElements.Select(x => x.ProxyElement);
-
-                //foreach (string proxy in proxyTags) {
-                //    builder.Append(proxy);
-                //    if (proxy != proxyTags.Last()) {
-                //        builder.Append(@"|");
-                //    }
-                //}
-
                 builder.Append(")");
-
-                System.Diagnostics.Debug.WriteLine(builder.ToString()); // TODO remove
 
                 return builder.ToString();
             }
@@ -87,7 +76,7 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
         public static List<MarkupAttribute> GetValidAttributesForElement(string elementProxyName) {
             List<MarkupAttribute> attributes = null;
             MarkupConfiguration.AttributesForElements.TryGetValue(elementProxyName, out attributes);
-            return attributes;
+            return attributes ?? new List<MarkupAttribute>();
         }
 
         // TODO tidy
@@ -181,9 +170,10 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
         }
 
         public static MarkupElement GetMarkupElementForMatch(string matchValue) {
-            // TODO matchValue may need to be more complicated depending on how attributes are handled
-            MarkupElement matchedMarkupElement = MarkupConfiguration.MarkupElements.Where(x => x.OpenProxyTag == matchValue)
-                                                                                   .SingleOrDefault();
+            // TODO need to handle more gracefully the exception where more than one element matches
+            MarkupElement matchedMarkupElement = MarkupConfiguration.MarkupElements
+                                                                    .Where(x => new Regex(x.OpenProxyTagRegexFactor).IsMatch(matchValue))
+                                                                    .SingleOrDefault();
             if (matchedMarkupElement == null) {
                 throw new ArgumentException(string.Format("No matching MarkupElement found for matched tag \"{0}\"", matchValue));
             }

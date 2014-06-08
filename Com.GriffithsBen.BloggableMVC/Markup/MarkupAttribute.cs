@@ -12,6 +12,12 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
         public string HtmlName { get; private set; }
 
+        /// <summary>
+        /// True if the presence of the attribute with a valid value is optional; 
+        /// otherwise it must have been given with a valid value if defined as a valid attribute of a given MarkupElement
+        /// </summary>
+        public bool IsOptional { get; private set; }
+
         public List<string> ValidValues { get; set; }
 
         public List<string> ValidParentElementNames { get; set; }
@@ -22,9 +28,11 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             this.ProxyName = proxyName;
             this.HtmlName = htmlName;
             // by default, any value is valid
-            this.ValidValues = new List<string>() { "." };
+            this.ValidValues = new List<string>() { "[.]" };
             // by default, attribute is applicable to all elements
-            this.ValidParentElementNames = new List<string>() { "." };
+            this.ValidParentElementNames = new List<string>() { "[.]" };
+            // element is not mandatory by default
+            this.IsOptional = true;
         }
 
     }

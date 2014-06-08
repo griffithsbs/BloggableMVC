@@ -15,5 +15,12 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
         public string ProxyValue { get; set; }
 
         public string HtmlValue { get; set; }
+
+        public ElementAttribute(string proxyName) : this(proxyName, string.Empty) { }
+
+        public ElementAttribute(string proxyName, string proxyValue) {
+            this.ProxyName = proxyName;
+            this.ProxyValue = proxyValue;
+        }
     }
 }
