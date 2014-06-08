@@ -51,12 +51,14 @@
     <Compile Include="Configuration\MarkupConfiguration.cs" />
     <Compile Include="Markup\ElementAttribute.cs" />
     <Compile Include="Markup\IElement.cs" />
+    <Compile Include="Markup\IMarkupValidator.cs" />
     <Compile Include="Markup\MarkupAttribute.cs" />
     <Compile Include="Markup\MarkupElement.cs" />
     <Compile Include="Configuration\ProxyTagDelimiter.cs" />
     <Compile Include="Configuration\ProxyTagDelimiterExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Markup\Element.cs" />
+    <Compile Include="Markup\MarkupValidator.cs" />
     <Compile Include="Markup\TextNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

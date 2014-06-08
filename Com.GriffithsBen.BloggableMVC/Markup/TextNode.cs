@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace Com.GriffithsBen.BloggableMVC.Markup {
@@ -10,7 +11,10 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
         private string Text { get; set; }
 
+        private IMarkupValidator MarkupValidator { get; set; }
+
         public TextNode(string text) {
+            this.MarkupValidator = new MarkupValidator();
             this.Text = text;
         }
 
@@ -45,9 +49,18 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             return new TextNode(string.Format("{0}{1}", this.Text.Substring(0, textEndIndex), textToAppend));
         }
 
-        
+        public IEnumerable<string> ValidationErrors {
+            get {
+                return this.MarkupValidator.ErrorMessages;
+            }
+        }
 
-        
+        public IEnumerable<string> ValidationWarnings {
+            get {
+                return this.MarkupValidator.WarningMessages;
+            }
+        }
 
     }
+
 }

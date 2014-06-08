@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace Com.GriffithsBen.BloggableMVC.Markup {
     /// <summary>
@@ -52,6 +53,9 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
         /// <returns></returns>
         bool IsValid();
 
+        IEnumerable<string> ValidationErrors { get; }
+
+        IEnumerable<string> ValidationWarnings { get; }
     }
 
 }

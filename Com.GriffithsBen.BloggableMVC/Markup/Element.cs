@@ -31,13 +31,10 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
         private List<ElementAttribute> Attributes { get; set; }
 
-        protected string GetProxyTagWithAttributes() {
-            return "TODO";
-        }
-
-        protected Element() { }
+        private IMarkupValidator MarkupValidator { get; set; }
 
         public Element(string tagContext, string contentContext) {
+            this.MarkupValidator = new MarkupValidator();
             this.OpenProxyTag = tagContext;
             this.ContentContext = contentContext;
             this.Children = new List<IElement>();
@@ -135,8 +132,6 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
         /// <returns>the interpreted proxy name of the element as per the given tagText</returns>
         private string InterpretTag(string tagText) {
 
-            bool isInvalid = false;
-
             MarkupElement matchedElement = MarkupConfiguration.GetMarkupElementForMatch(tagText);
 
             this.ProxyName = matchedElement.ProxyElement;
@@ -163,18 +158,20 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
                     }
                     else {
-                        isInvalid = true;
+                        this.MarkupValidator.AddError("Missing value of attribute {0} on element {1}",
+                                                      attribute.ProxyName,
+                                                      this.ProxyName);
                     }
                     
                 }
                 else {
                     if (!attribute.IsOptional) {
-                        isInvalid = true;
+                        this.MarkupValidator.AddError("Element {0} is missing required attribute {1}",
+                                                      this.ProxyName,
+                                                      attribute.ProxyName);
                     }
                 }
             }
-
-            // TODO - mark this element as invalid but without throwing exception
 
             return this.ProxyName;
         }
@@ -244,6 +241,18 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             }
 
             return result;
+        }
+
+        public IEnumerable<string> ValidationErrors {
+            get {
+                return this.MarkupValidator.ErrorMessages;
+            }
+        }
+
+        public IEnumerable<string> ValidationWarnings {
+            get {
+                return this.MarkupValidator.WarningMessages;
+            }
         }
 
     }
