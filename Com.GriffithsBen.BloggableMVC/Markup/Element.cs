@@ -40,13 +40,13 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
         protected Element() { }
 
-        public Element(string context, string proxyName) {
-            this.RawContext = context;
+        public Element(string tagContext, string contentContext) {
+            this.RawContext = contentContext;
             this.Children = new List<IElement>();
             this.Attributes = new List<ElementAttribute>();
-            this.ProxyName = proxyName;
-            this.HtmlName = MarkupConfiguration.GetHtmlNameFor(proxyName);
-            this.Interpret(context);
+            this.ProxyName = this.InterpretTag(tagContext);
+            this.HtmlName = MarkupConfiguration.GetHtmlNameForElement(this.ProxyName);
+            this.Interpret(contentContext);
         }
 
         private void AddChild(IElement child) {
@@ -103,10 +103,6 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             // if the closing tag is not the end of the context, make a recursive call to this.Interpret, passing the
             // remainder of the context, having added intermediateResult as a new child of result
 
-            
-            // parse any attributes included in the match value and get the proxy name of this element
-            string proxyName = this.InterpretTag(match.Value);
-
             MarkupElement matchedMarkupElement = MarkupConfiguration.GetMarkupElementForMatch(match.Value);
 
             string endTag = matchedMarkupElement.CloseProxyTag;
@@ -120,8 +116,8 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
             string startTag = match.Value;
             Element matchedElement = new Element(
-                context.Substring(0 + startTag.Length, endOfMatchedElementContent - startTag.Length),
-                proxyName
+                match.Value,
+                context.Substring(0 + startTag.Length, endOfMatchedElementContent - startTag.Length)
             );
 
             this.AddChild(matchedElement);
@@ -163,7 +159,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
                             // last attribute in tag, which is assumeed to end in ">, where represents any proxy tag delimiter
                             endIndexOfValue = tagText.Length - 2;
                         }
-                        string value = tagText.Substring(startIndexOfValue, tagText.Length - endIndexOfValue);
+                        string value = tagText.Substring(startIndexOfValue, endIndexOfValue - startIndexOfValue);
 
                         this.AddAttribute(new ElementAttribute(attribute.ProxyName, value));
 
@@ -218,7 +214,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
         }
 
         IElement IElement.Clone() {
-            return new Element(this.RawContext, this.ProxyName);
+            return new Element(this.OpenProxyTag, this.RawContext);
         }
 
         IElement IElement.Truncate(int textEndIndex) {
@@ -231,7 +227,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
                 return (this as IElement).Clone();
             }
 
-            Element result = new Element(string.Empty, this.ProxyName);
+            Element result = new Element(MarkupConfiguration.RootElementTagContext, string.Empty);
 
             int totalTextLength = 0;
 

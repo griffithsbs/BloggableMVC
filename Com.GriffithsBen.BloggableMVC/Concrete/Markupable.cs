@@ -23,7 +23,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         public Markupable(IMarkupable markupableContent) {
             this.MarkupableContent = markupableContent;
             this.MarkupElements = MarkupConfiguration.CopyMarkupElements();
-            this.Markup = new Element(markupableContent.Content, MarkupConfiguration.RootElementProxyName);
+            this.Markup = new Element(MarkupConfiguration.RootElementTagContext, markupableContent.Content);
         }
 
         /// <summary>

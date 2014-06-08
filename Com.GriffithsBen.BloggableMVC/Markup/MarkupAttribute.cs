@@ -28,9 +28,9 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             this.ProxyName = proxyName;
             this.HtmlName = htmlName;
             // by default, any value is valid
-            this.ValidValues = new List<string>() { "[.]" };
+            this.ValidValues = new List<string>() { ".*" };
             // by default, attribute is applicable to all elements
-            this.ValidParentElementNames = new List<string>() { "[.]" };
+            this.ValidParentElementNames = new List<string>() { ".*" };
             // element is not mandatory by default
             this.IsOptional = true;
         }

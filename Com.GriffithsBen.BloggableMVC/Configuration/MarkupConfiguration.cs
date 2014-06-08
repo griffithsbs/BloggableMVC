@@ -14,7 +14,8 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
     /// </summary>
     public static class MarkupConfiguration {
 
-        private const string DefaultRootElementProxyName = "p";
+        // TODO might be convenient to addd a root css class to this root tag
+        private const string DefaultRootElementTagContext = "[p]";
 
         private const string DefaultSynopsisEnd = "...";
 
@@ -24,10 +25,12 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
             get {
                 if (mAttributesForElements == null) {
                     mAttributesForElements = new Dictionary<string, List<MarkupAttribute>>();
-                        mAttributesForElements.Add("link", new List<MarkupAttribute>() { 
-                        new MarkupAttribute("url", "href"),
-                        new MarkupAttribute("title")
-                    });
+                        mAttributesForElements.Add("link", 
+                                                    new List<MarkupAttribute>() { 
+                                                        new MarkupAttribute("url", "href"),
+                                                        new MarkupAttribute("title")
+                                                    }
+                        );
                 }
                 return mAttributesForElements;
             }
@@ -57,16 +60,24 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
             }
         }
 
-        public static string GetHtmlNameFor(string proxyName) {
+        public static string GetHtmlNameForElement(string proxyName) {
             MarkupElement tag = MarkupConfiguration.MarkupElements.Where(x => x.ProxyElement == proxyName).SingleOrDefault();
             if (tag == null) {
                 throw new ArgumentException(string.Format("No tag found with proxy name {0}", proxyName));
             }
             return tag.HtmlElement;
         }
+
+        public static string GetHtmlNameForAttribute(string proxyName) {
+            // TODO gracefully handle more than one defined attribute exception
+            return MarkupConfiguration.AttributesForElements
+                                      .SelectMany(x => x.Value)
+                                      .Where(y => y.ProxyName == proxyName)
+                                      .SingleOrDefault()
+                                      .HtmlName;
+        }
         
-        // TODO should maybe make this a tag rather than just a dumb string?
-        public static string RootElementProxyName { get; private set; }
+        public static string RootElementTagContext { get; private set; }
 
         /// <summary>
         /// The string to append to the end of the truncated content of a text node
@@ -85,9 +96,9 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
             MarkupConfiguration.MarkupElements = MarkupConfiguration.DefaultMarkupElements;
             MarkupConfiguration.ProxyTagDelimiter = ProxyTagDelimiter.SquareBracket; // TODO make configurable
             
-            MarkupConfiguration.RootElementProxyName = 
-                ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.RootElementProxyName"]
-                ?? MarkupConfiguration.DefaultRootElementProxyName;
+            MarkupConfiguration.RootElementTagContext = 
+                ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.RootElementTagContext"]
+                ?? MarkupConfiguration.DefaultRootElementTagContext;
             
             MarkupConfiguration.SynopsisEnd =
                 ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.SynopsisEnd"]
