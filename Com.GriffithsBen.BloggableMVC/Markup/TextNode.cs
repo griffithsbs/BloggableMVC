@@ -11,15 +11,21 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
         private string Text { get; set; }
 
-        private IMarkupValidator MarkupValidator { get; set; }
-
         public TextNode(string text) {
-            this.MarkupValidator = new MarkupValidator();
+            this.mMarkupValidator = new MarkupValidator();
             this.Text = text;
         }
 
         public override string ToString() {
             return this.Text;
+        }
+
+        private MarkupValidator mMarkupValidator { get; set; }
+
+        IMarkupValidator IElement.MarkupValidator {
+            get {
+                return this.mMarkupValidator;
+            }
         }
 
         public IElement Clone() {
@@ -35,7 +41,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
         }
 
         bool IElement.IsValid() {
-            throw new NotImplementedException();
+            return this.mMarkupValidator.IsValid;
         }
 
         IElement IElement.Truncate(int textEndIndex) {
@@ -51,13 +57,13 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
         public IEnumerable<string> ValidationErrors {
             get {
-                return this.MarkupValidator.ErrorMessages;
+                return this.mMarkupValidator.ErrorMessages;
             }
         }
 
         public IEnumerable<string> ValidationWarnings {
             get {
-                return this.MarkupValidator.WarningMessages;
+                return this.mMarkupValidator.WarningMessages;
             }
         }
 

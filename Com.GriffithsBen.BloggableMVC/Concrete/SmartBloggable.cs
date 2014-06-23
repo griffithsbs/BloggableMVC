@@ -160,8 +160,34 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
             }
         }
 
+        public bool IsValid {
+            get {
+                return this.Markupable == null || this.Markupable.Markup == null || this.Markupable.Markup.IsValid();
+            }
+        }
+
+        public IEnumerable<string> ValidationErrors {
+            get {
+                IEnumerable<string> errors = null;
+                if (this.Markupable != null && this.Markupable.Markup != null) {
+                    errors = this.Markupable.Markup.ValidationErrors;
+                }
+                return errors;
+            }
+        }
+
+        public IEnumerable<string> ValidationWarnings {
+            get {
+                IEnumerable<string> warnings = null;
+                if (this.Markupable != null && this.Markupable.Markup != null) {
+                    warnings = this.Markupable.Markup.ValidationWarnings;
+                }
+                return warnings;
+            }
+        }
+
         /// <summary>
-        /// A Dictionary of key-value pairs of strings, useful if wish to store extra properties from our 
+        /// A Dictionary of key-value pairs of strings, useful if  we wish to store extra properties from our 
         /// wrapped object that are not part of the IBloggable interface which the wrapped object implements
         /// </summary>
         public Dictionary<string, string> ModelData { get; set; }

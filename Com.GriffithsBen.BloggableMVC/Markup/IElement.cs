@@ -45,6 +45,8 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
         /// <returns></returns>
         MvcHtmlString GetHtml();
 
+        IMarkupValidator MarkupValidator { get; }
+
         /// <summary>
         /// IsValid
         /// Tests whether or not the tag context and contents context strings with which this element instance

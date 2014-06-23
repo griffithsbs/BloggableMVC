@@ -31,10 +31,10 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
         private List<ElementAttribute> Attributes { get; set; }
 
-        private IMarkupValidator MarkupValidator { get; set; }
+        private IMarkupValidator mMarkupValidator { get; set; }
 
         public Element(string tagContext, string contentContext) {
-            this.MarkupValidator = new MarkupValidator();
+            this.mMarkupValidator = new MarkupValidator();
             this.OpenProxyTag = tagContext;
             this.ContentContext = contentContext;
             this.Children = new List<IElement>();
@@ -105,8 +105,15 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             int endOfMatchedElementContent = context.IndexOf(endTag);
 
             if (endOfMatchedElementContent == -1) {
-                // TODO - matching end tag not found - therefore markup is invalid.
-                throw new NotImplementedException();
+                // matching end tag not found - markup is invalid.
+                this.mMarkupValidator.AddError("Matching end tag not found for element \"{0}\". End tag inserted.", 
+                    matchedMarkupElement.ProxyElement);
+
+                // insert a closing tag for the element immediately after the mis-matched opening tag, 
+                // and then reinterpret this context
+                context = context.Replace(match.Value, string.Format("{0}{1}", match.Value, matchedMarkupElement.CloseProxyTag));
+                this.Interpret(context);
+                return;
             }
 
             string startTag = match.Value;
@@ -158,7 +165,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
                     }
                     else {
-                        this.MarkupValidator.AddError("Missing value of attribute {0} on element {1}",
+                        this.mMarkupValidator.AddError("Missing value of attribute {0} on element {1}",
                                                       attribute.ProxyName,
                                                       this.ProxyName);
                     }
@@ -166,7 +173,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
                 }
                 else {
                     if (!attribute.IsOptional) {
-                        this.MarkupValidator.AddError("Element {0} is missing required attribute {1}",
+                        this.mMarkupValidator.AddError("Element {0} is missing required attribute {1}",
                                                       this.ProxyName,
                                                       attribute.ProxyName);
                     }
@@ -203,9 +210,22 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             return this.Children.Sum(x => x.GetTextLength());
         }
 
-        // TODO
+        IMarkupValidator IElement.MarkupValidator {
+            get {
+                return this.mMarkupValidator;
+            }
+        }
+
         bool IElement.IsValid() {
-            throw new NotImplementedException();
+            bool rootIsValid = this.mMarkupValidator.IsValid;
+            if (rootIsValid) {
+                foreach (IElement child in this.Children) {
+                    if (!child.IsValid()) {
+                        return false;
+                    }
+                }
+            }
+            return rootIsValid;
         }
 
         IElement IElement.Clone() {
@@ -245,13 +265,18 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
         public IEnumerable<string> ValidationErrors {
             get {
-                return this.MarkupValidator.ErrorMessages;
+                IEnumerable<string> errors = this.mMarkupValidator.ErrorMessages;
+                // add errors from children, without duplicating any error messages
+                foreach(IElement child in this.Children) {
+                    errors = errors.Concat(child.MarkupValidator.ErrorMessages);
+                }
+                return errors;
             }
         }
 
         public IEnumerable<string> ValidationWarnings {
             get {
-                return this.MarkupValidator.WarningMessages;
+                return this.mMarkupValidator.WarningMessages;
             }
         }
 

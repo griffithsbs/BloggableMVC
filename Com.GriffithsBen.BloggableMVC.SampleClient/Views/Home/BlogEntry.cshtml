@@ -46,6 +46,38 @@
             @Html.DisplayFor(model => model.DisplayName)
         </dd>
 
+        <dt>
+            Validation summary
+        </dt>
+
+        <dd>
+            @if (Model.IsValid) {
+                <text>Markup is valid</text>
+            }
+            else {
+
+                IEnumerable<string> errors = Model.ValidationErrors;
+                if (errors.Any()) {
+                    <h5>Errors</h5>
+                    <ul>
+                        @foreach (string error in errors) {
+                            <li>@error</li>
+                        }
+                    </ul>
+                }
+            }
+            @{ IEnumerable<string> warnings = Model.ValidationWarnings; }
+            @if (warnings.Any()) {
+                <h5>Warnings</h5>
+                <ul>
+                    @foreach (string warning in warnings) {
+                        <li>@warning</li>
+                    }
+                </ul>
+            }
+
+        </dd>
+
     </dl>
 </div>
 <p>
