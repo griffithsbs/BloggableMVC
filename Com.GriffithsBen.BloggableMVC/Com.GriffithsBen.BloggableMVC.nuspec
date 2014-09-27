@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Com.GriffithsBen.BloggableMVC</id>
+        <version>0.0.5</version>
+        <title>BloggableMVC</title>
+        <authors>Ben Griffiths</authors>
+        <owners>Ben Griffiths</owners>
+        <licenseUrl>http://opensource.org/licenses/ms-pl.html</licenseUrl>
+        <projectUrl>https://github.com/griffithsbs/BloggableMVC</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>A library of utilities for developing a blogging site as part of an ASP.NET MVC application.</description>
+        <releaseNotes>experimenting with directory structure</releaseNotes>
+    </metadata>
+    <files>
+        <file src="Content\Bloggable.css" target="Content\Bloggable.css" />
+        <file src="bin\Debug\Com.GriffithsBen.BloggableMVC.dll" target="lib\Com.GriffithsBen.BloggableMVC.dll" />
+    </files>
+</package>
