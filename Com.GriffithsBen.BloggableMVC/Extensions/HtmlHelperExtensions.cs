@@ -1,5 +1,6 @@
 ﻿using Com.GriffithsBen.BloggableMVC.Abstract;
 using Com.GriffithsBen.BloggableMVC.Concrete;
+using Com.GriffithsBen.BloggableMVC.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -13,7 +14,7 @@ namespace Com.GriffithsBen.BloggableMVC.Extensions {
             public string Content { get; set; }
         }
 
-        public static MvcHtmlString BlogContentFor<TModel, TResult>(this HtmlHelper helper, 
+        public static MvcHtmlString BlogContentFor<TModel, TResult>(this HtmlHelper<TModel> helper, 
                                                                     Expression<Func<TModel, TResult>> expression,
                                                                     object htmlAttributes = null) {
 
@@ -22,13 +23,9 @@ namespace Com.GriffithsBen.BloggableMVC.Extensions {
                 throw new ArgumentException("expression is expected to be a MemberExpression");
             }
 
-            UnaryExpression objectMember = Expression.Convert(memberExpression, typeof(object));
-
-            Expression<Func<object>> getterLambda = Expression.Lambda<Func<object>>(objectMember);
-
-            Func<object> getter = getterLambda.Compile();
-
-            string content = getter() as string;
+            Expression<Func<TModel, string>> getterLambda = Expression.Lambda<Func<TModel, string>>(memberExpression, expression.Parameters);
+            
+            string content = getterLambda.Compile()(helper.ViewData.Model);
 
             if (content == null) {
                 throw new ArgumentException("The member expression is expected to access a property of type string");
@@ -49,14 +46,26 @@ namespace Com.GriffithsBen.BloggableMVC.Extensions {
                 }
             );
 
-            // TODO - root element
-            TagBuilder tag = new TagBuilder("p");
+            ProxyTagDelimiter proxyTagDelimiter = MarkupConfiguration.ProxyTagDelimiter;
 
-            if (htmlAttributes != null && htmlAttributes is Dictionary<string, string>) {
-                tag.MergeAttributes((Dictionary<string, string>)htmlAttributes);
+            TagBuilder tag = new TagBuilder(MarkupConfiguration.RootElementTagContext
+                                                               .TrimStart(proxyTagDelimiter.GetOpeningCharacter())
+                                                               .TrimEnd(proxyTagDelimiter.GetClosingCharacter()));
+
+            if (htmlAttributes != null) {
+                tag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
             }
 
-            tag.InnerHtml = markupable.ContentHtml.ToString();
+            // hack. we have doubled up on the root element here for the purposes of adding the html attributes,
+            // so we remove the innermost of the 'two roots'
+            int innerRootOpeningTagLength = MarkupConfiguration.RootElementTagContext.Length;
+            int innerRootClosingTagLength = innerRootOpeningTagLength + 1;
+            int contentLength = markupable.ContentHtml.ToString().Length;
+            string contentHtml = markupable.ContentHtml.ToString();
+
+            tag.InnerHtml = contentHtml.Remove(0, innerRootOpeningTagLength)
+                                       .Remove(contentLength - innerRootOpeningTagLength - innerRootClosingTagLength, 
+                                               innerRootClosingTagLength);
 
             return new MvcHtmlString(tag.ToString());
 
