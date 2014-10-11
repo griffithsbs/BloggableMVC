@@ -26,20 +26,25 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
         public List<MarkupAttribute> ValidAttributes { get; private set; }
 
-        public MarkupElement(string proxyElementName, string htmlElementName) {
+        public IEnumerable<MarkupAttribute> MandatoryAttributes { get; private set; }
+
+        public MarkupElement(string proxyElementName, string htmlElementName, IEnumerable<MarkupAttribute> mandatoryAttributes = null) {
             this.ProxyElement = proxyElementName;
             this.HtmlElement = htmlElementName;
             this.ProxyTagDelimiter = MarkupConfiguration.ProxyTagDelimiter;
+            this.MandatoryAttributes = mandatoryAttributes;
             this.ValidAttributes = MarkupConfiguration.GetValidAttributesForElement(this.ProxyElement);
+            if (this.MandatoryAttributes != null) {
+                this.ValidAttributes.AddRange(this.MandatoryAttributes);
+            }
         }
 
         internal string OpenProxyTagRegexFactor {
             get {
                 StringBuilder builder = new StringBuilder();
 
-                // TODO not all proxy tag delimiters should be escaped
-                builder.AppendFormat(@"\{0}{1}", 
-                                     MarkupConfiguration.ProxyTagDelimiter.GetOpeningCharacter(),
+                builder.AppendFormat(@"{0}{1}", 
+                                     MarkupConfiguration.ProxyTagDelimiter.GetEscapedOpeningCharacter(),
                                      this.ProxyElement
                 );
 
@@ -82,16 +87,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
 
                 }
                 
-                builder.AppendFormat(@"[\s]*\{0}", MarkupConfiguration.ProxyTagDelimiter.GetClosingCharacter());
-
-                System.Diagnostics.Debug.WriteLine(builder.ToString()); // TODO remove
-                System.Diagnostics.Debug.WriteLine("Matches {0}: {1}", this.OpenProxyTag, 
-                    System.Text.RegularExpressions.Regex.IsMatch(this.OpenProxyTag, builder.ToString())); // TODO remove
-                if (this.ProxyElement == "link") {
-                    string test = "[link url=\"www.google.com\" title=\"Go to Google\"]";
-                    System.Diagnostics.Debug.WriteLine("Matches {0}: {1}", test,
-                    System.Text.RegularExpressions.Regex.IsMatch(test, builder.ToString())); // TODO remove
-                }
+                builder.AppendFormat(@"[\s]*{0}", MarkupConfiguration.ProxyTagDelimiter.GetEscapedClosingCharacter());
 
                 return builder.ToString();
             }

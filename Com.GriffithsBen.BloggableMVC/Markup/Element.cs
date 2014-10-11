@@ -40,6 +40,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             this.Children = new List<IElement>();
             this.Attributes = new List<ElementAttribute>();
             this.ProxyName = this.InterpretTag(tagContext);
+            this.Attributes.AddRange(MarkupConfiguration.GetMandatoryAttributesForElement(this.ProxyName));
             this.HtmlName = MarkupConfiguration.GetHtmlNameForElement(this.ProxyName);
             this.Interpret(contentContext);
         }
@@ -60,8 +61,8 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
         /// <returns></returns>
         private void Interpret(string context) {
 
-            // if the context is an empty string, interpretation has finished, so return
-            if (context.Length == 0) {
+            // if the context is null or an empty string, interpretation has finished, so return
+            if (string.IsNullOrEmpty(context)) {
                 return;
             }
 

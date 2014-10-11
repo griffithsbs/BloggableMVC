@@ -38,6 +38,32 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
             }
         }
 
+        internal static string GetEscapedOpeningCharacter(this ProxyTagDelimiter delimiter) {
+            switch (delimiter) {
+                case ProxyTagDelimiter.SquareBracket:
+                    return @"\[";
+                case ProxyTagDelimiter.RoundedBracket:
+                    return @"\(";
+                case ProxyTagDelimiter.Pipe:
+                    return @"\|";
+                case ProxyTagDelimiter.Power:
+                    return @"\^";
+                default:
+                    return new string(delimiter.GetOpeningCharacter(), 1);
+            }
+        }
+
+        internal static string GetEscapedClosingCharacter(this ProxyTagDelimiter delimiter) {
+            switch (delimiter) {
+                case ProxyTagDelimiter.SquareBracket:
+                    return @"\]";
+                case ProxyTagDelimiter.RoundedBracket:
+                    return @"\)";
+                default:
+                    return delimiter.GetEscapedOpeningCharacter();
+            }
+        }
+
         internal static string GetOpenTagFormat(this ProxyTagDelimiter delimiter) {
             return delimiter.GetOpeningCharacter() + "{0}" + delimiter.GetClosingCharacter();
         }

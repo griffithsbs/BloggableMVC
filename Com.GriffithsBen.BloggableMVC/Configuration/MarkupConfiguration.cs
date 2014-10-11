@@ -14,10 +14,22 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
     /// </summary>
     public static class MarkupConfiguration {
 
-        // TODO might be convenient to addd a root css class to this root tag
         private const string DefaultRootElementTagContext = "[p]";
 
         private const string DefaultSynopsisEnd = "...";
+
+        private static List<MarkupAttribute> mUniversalAttributes;
+
+        private static List<MarkupAttribute> UniversalAttributes {
+            get {
+                if (mUniversalAttributes == null) {
+                    mUniversalAttributes = new List<MarkupAttribute>() {
+                        new MarkupAttribute("class")
+                    };
+                }
+                return mUniversalAttributes;
+            }
+        }
 
         private static Dictionary<string, List<MarkupAttribute>> mAttributesForElements;
 
@@ -35,6 +47,23 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
                 return mAttributesForElements;
             }
         }
+
+        private static Dictionary<string, List<ElementAttribute>> mMandatoryAttributesForElements;
+
+        private static Dictionary<string, List<ElementAttribute>> MandatoryAttributesForElements {
+            get {
+                if (mMandatoryAttributesForElements == null) {
+                    mMandatoryAttributesForElements = new Dictionary<string, List<ElementAttribute>>();
+                    mMandatoryAttributesForElements.Add("b",
+                                                new List<ElementAttribute>() { 
+                                                    new ElementAttribute("class", "bold")
+                                                }
+                    );
+                }
+                return mMandatoryAttributesForElements;
+            }
+        }
+
         private static string OpeningTagsRegexFactor {
             get {
                 StringBuilder builder = new StringBuilder();
@@ -58,12 +87,12 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
         /// The list of mark up elements that are used by default when parsing marked up content
         /// </summary>
         private static List<MarkupElement> DefaultMarkupElements = new List<MarkupElement>() {
-            // TODO decide on list of default markup elements
-            new MarkupElement("b", "span class=\"bold\""),
+            new MarkupElement("b", "span"),
             new MarkupElement("i", "i"),
             new MarkupElement("p", "p"),
             new MarkupElement("quote", "blockquote"),
-            new MarkupElement("link", "a")
+            new MarkupElement("link", "a"),
+            new MarkupElement("code", "pre")
         };
 
         /// <summary>
@@ -108,12 +137,32 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
         }
 
         public static string GetHtmlNameForAttribute(string proxyName) {
-            // TODO gracefully handle more than one defined attribute exception
-            return MarkupConfiguration.AttributesForElements
-                                      .SelectMany(x => x.Value)
-                                      .Where(y => y.ProxyName == proxyName)
-                                      .SingleOrDefault()
-                                      .HtmlName;
+
+            if (UniversalAttributes != null) {
+                var attrs = UniversalAttributes.Where(x => x.ProxyName == proxyName);
+                if(attrs.Any()) {
+                    if(attrs.Count() > 1) {
+                        throw new ArgumentException(string.Format(
+                            "More than one defined universal attribute for the proxy name \"{0}\"", proxyName));
+                    }
+                    return attrs.Single().HtmlName;
+                }
+            }
+
+            var specificAttrs = AttributesForElements.SelectMany(x => x.Value)
+                                                     .Where(y => y.ProxyName == proxyName);
+
+            if (!specificAttrs.Any()) {
+                throw new ArgumentException(string.Format("No attribute found for proxy name {0}", proxyName));
+            }
+
+            if (specificAttrs.Count() > 1) {
+                throw new ArgumentException(string.Format(
+                            "More than one defined attribute for the proxy name \"{0}\"", proxyName));
+            }
+
+            return specificAttrs.Single()
+                                .HtmlName;
         }
         
         public static string RootElementTagContext { get; private set; }
@@ -127,6 +176,12 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
             List<MarkupAttribute> attributes = null;
             MarkupConfiguration.AttributesForElements.TryGetValue(elementProxyName, out attributes);
             return attributes ?? new List<MarkupAttribute>();
+        }
+
+        public static IEnumerable<ElementAttribute> GetMandatoryAttributesForElement(string elementProxyName) {
+            List<ElementAttribute> attributes = null;
+            MarkupConfiguration.MandatoryAttributesForElements.TryGetValue(elementProxyName, out attributes);
+            return attributes ?? new List<ElementAttribute>();
         }
 
         public static ProxyTagDelimiter ProxyTagDelimiter { get; set; }
@@ -190,14 +245,18 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
         }
 
         public static MarkupElement GetMarkupElementForMatch(string matchValue) {
-            // TODO need to handle more gracefully the exception where more than one element matches
-            MarkupElement matchedMarkupElement = MarkupConfiguration.MarkupElements
-                                                                    .Where(x => new Regex(x.OpenProxyTagRegexFactor).IsMatch(matchValue))
-                                                                    .SingleOrDefault();
-            if (matchedMarkupElement == null) {
-                throw new ArgumentException(string.Format("No matching MarkupElement found for matched tag \"{0}\"", matchValue));
+            IEnumerable<MarkupElement> matchedMarkupElements = 
+                MarkupElements.Where(x => new Regex(x.OpenProxyTagRegexFactor).IsMatch(matchValue));
+
+            if (!matchedMarkupElements.Any()) {
+                throw new ArgumentException(
+                    string.Format("No matching MarkupElement found for matched tag \"{0}\"", matchValue));
             }
-            return matchedMarkupElement;
+            if (matchedMarkupElements.Count() > 1) {
+                throw new ArgumentException(
+                    string.Format("More than one matching MarkupElement found for matched tag \"{0}\"", matchValue));
+            }
+            return matchedMarkupElements.Single();
         }
     }
 }
