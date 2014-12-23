@@ -30,6 +30,6 @@ The bloggable utilities can be used in two ways:
 
 2. Alternatively, or in addition, the SmartBloggable behaviour can be used indirectly via the HtmlHelper extension methods within the namespace Com.GriffithsBen.BloggableMVC.Extensions.
 
-BloggableMVC requires MVC4 or higher.
+BloggableMVC has a dependency on ASP.NET MVC5.
 
 The sample client project has a dependency on MVC5 and requires Twitter Bootstrap and jQuery (tested with 1.10.2).
