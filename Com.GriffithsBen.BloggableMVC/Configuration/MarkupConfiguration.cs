@@ -245,6 +245,13 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
             MarkupConfiguration.MarkupElements.Remove(targetElement);
         }
 
+        /// <summary>
+        /// Empty the list of currently configured MarkupElements
+        /// </summary>
+        public static void ClearMarkupElements() {
+            MarkupConfiguration.MarkupElements = new List<MarkupElement>();
+        }
+
         public static MarkupElement GetMarkupElementForMatch(string matchValue) {
             IEnumerable<MarkupElement> matchedMarkupElements = 
                 MarkupElements.Where(x => new Regex(x.OpenProxyTagRegexFactor).IsMatch(matchValue));
@@ -259,5 +266,35 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
             }
             return matchedMarkupElements.Single();
         }
+
+        public static void AddMandatoryAttribute(string proxyElement, ElementAttribute attribute) {
+            if (string.IsNullOrWhiteSpace(proxyElement)) {
+                throw new ArgumentException("argument is null or whitespace", "proxyElement");
+            }
+            if (attribute == null) {
+                throw new ArgumentNullException("attribute");
+            }
+            Dictionary<string, List<ElementAttribute>> mandatoryAttributes = MarkupConfiguration.MandatoryAttributesForElements;
+            List<ElementAttribute> mandatoryAttributesForThisElement = new List<ElementAttribute>() {
+                attribute
+            };
+            if (mandatoryAttributes.ContainsKey(proxyElement)) {
+                if (mandatoryAttributes[proxyElement] == null) {
+                    mandatoryAttributes[proxyElement] = new List<ElementAttribute>() {
+                        attribute
+                    };
+                }
+                else {
+                    mandatoryAttributes[proxyElement].Add(attribute);
+                }
+            }
+            else {
+                mandatoryAttributes.Add(proxyElement, mandatoryAttributesForThisElement);
+            }
+        }
+
+        // TODO allow removal of mandatory attributes
+
     }
+
 }
