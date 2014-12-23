@@ -14,7 +14,7 @@ namespace Com.GriffithsBen.BloggableMVC.Test {
             public string Author { get; set; }
             public DateTime Date { get; set; }
             public string DisplayName { get; set; }
-            public IEnumerable<IBloggable> Comments { get; set; }
+            public IEnumerable<IMarkupable> Comments { get; set; }
         }
 
         private IBloggable BlogPost { get; set; }

@@ -139,7 +139,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         /// In the case of a Blog post, this is the collection of comments on that post.
         /// In the case of a comment, this is the collection of replies to that comment.
         /// </summary>
-        public IEnumerable<IBloggable> Comments {
+        public IEnumerable<IMarkupable> Comments {
             get {
                 return this.Bloggable.Comments;
             }

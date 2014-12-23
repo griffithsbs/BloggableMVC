@@ -24,6 +24,6 @@ namespace Com.GriffithsBen.BloggableMVC.SampleClient.Models {
 
         public string DisplayName { get; set; }
 
-        public IEnumerable<IBloggable> Comments { get; set; }
+        public IEnumerable<IMarkupable> Comments { get; set; }
     }
 }

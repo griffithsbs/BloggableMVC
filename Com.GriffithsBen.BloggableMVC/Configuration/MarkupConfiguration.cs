@@ -1,5 +1,4 @@
-﻿using Com.GriffithsBen.BloggableMVC.Concrete;
-using Com.GriffithsBen.BloggableMVC.Markup;
+﻿using Com.GriffithsBen.BloggableMVC.Markup;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -13,6 +12,8 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
     /// Provides application-wide definitions and configuration of markup elements and attributes
     /// </summary>
     public static class MarkupConfiguration {
+
+        // TODO allow full configuration (add/remove/clear) of elements and of valid and mandatory attributes
 
         private const string DefaultRootElementTagContext = "[p]";
 

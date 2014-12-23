@@ -13,7 +13,7 @@ namespace Com.GriffithsBen.BloggableMVC.Abstract {
 
         string DisplayName { get; set; }
 
-        IEnumerable<IBloggable> Comments { get; set; } // TODO IMarkupable rather than IBloggable?
+        IEnumerable<IMarkupable> Comments { get; set; }
 
     }
 }
