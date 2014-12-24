@@ -1,6 +1,7 @@
 ﻿using Com.GriffithsBen.BloggableMVC.Abstract;
 using Com.GriffithsBen.BloggableMVC.Concrete;
 using Com.GriffithsBen.BloggableMVC.Configuration;
+using Com.GriffithsBen.BloggableMVC.Markup;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -58,7 +59,11 @@ namespace Com.GriffithsBen.BloggableMVC.Extensions {
 
             // hack. we have doubled up on the root element here for the purposes of adding the html attributes,
             // so we remove the innermost of the 'two roots'
-            int innerRootOpeningTagLength = MarkupConfiguration.RootElementTagContext.Length;
+            MarkupElement rootElement = MarkupConfiguration.GetMarkupElementForMatch(MarkupConfiguration.RootElementTagContext);
+            if(rootElement == null) {
+                throw new InvalidOperationException(string.Format("No matching markup element found for configrued root element tag context, \"{0}\"", MarkupConfiguration.RootElementTagContext));
+            }
+            int innerRootOpeningTagLength = rootElement.HtmlElement.Length + 2;
             int innerRootClosingTagLength = innerRootOpeningTagLength + 1;
             int contentLength = markupable.ContentHtml.ToString().Length;
             string contentHtml = markupable.ContentHtml.ToString();

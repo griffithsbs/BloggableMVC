@@ -237,6 +237,7 @@ namespace Com.GriffithsBen.BloggableMVC.Markup {
             return (this as IElement).Truncate(textEndIndex, "...");
         }
 
+        // TODO this doesn't always result in valid HTML
         IElement IElement.Truncate(int textEndIndex, string textToAppend) {
 
             if (textEndIndex >= this.GetTextLength()) {

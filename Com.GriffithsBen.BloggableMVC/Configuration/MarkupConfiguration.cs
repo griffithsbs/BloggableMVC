@@ -15,7 +15,7 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
 
         // TODO allow full configuration (add/remove/clear) of elements and of valid and mandatory attributes
 
-        private const string DefaultRootElementTagContext = "[p]";
+        private const string DefaultRootElementTagContext = "[d]";
 
         private const string DefaultSynopsisEnd = "...";
 
@@ -88,6 +88,7 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
         /// The list of mark up elements that are used by default when parsing marked up content
         /// </summary>
         private static List<MarkupElement> DefaultMarkupElements = new List<MarkupElement>() {
+            new MarkupElement("d", "div"),
             new MarkupElement("b", "span"),
             new MarkupElement("i", "i"),
             new MarkupElement("p", "p"),
