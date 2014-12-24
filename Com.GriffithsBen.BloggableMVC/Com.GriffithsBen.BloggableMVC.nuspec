@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Com.GriffithsBen.BloggableMVC</id>
-        <version>0.0.7-alpha</version>
+        <version>0.0.8-alpha</version>
         <title>BloggableMVC</title>
         <authors>Ben Griffiths</authors>
         <owners>Ben Griffiths</owners>
@@ -10,7 +10,7 @@
         <projectUrl>https://github.com/griffithsbs/BloggableMVC</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>A library of utilities for developing a blogging site as part of an ASP.NET MVC application.</description>
-        <releaseNotes>adding SynopsisLength to XAML config options</releaseNotes>
+        <releaseNotes>Changing default root element from p to div, and fixing bug in HtmlHelperExtensions.BlogContent method</releaseNotes>
     </metadata>
     <files>
         <file src="Content\Bloggable.css" target="Content\Bloggable.css" />
