@@ -173,6 +173,20 @@ namespace Com.GriffithsBen.BloggableMVC.Configuration {
         /// </summary>
         public static string SynopsisEnd { get; set; }
 
+        private static int DefaultSynopsisLength = 20;
+
+        public static int SynopsisLength {
+            get {
+                int result;
+                string config = ConfigurationManager.AppSettings["BloggableMVC.MarkupConfiguration.SynopsisLength"];
+
+                if (Int32.TryParse(config, out result)) {
+                    return result;
+                }
+                return MarkupConfiguration.DefaultSynopsisLength;
+            }
+        }
+
         public static List<MarkupAttribute> GetValidAttributesForElement(string elementProxyName) {
             List<MarkupAttribute> attributes = null;
             MarkupConfiguration.AttributesForElements.TryGetValue(elementProxyName, out attributes);

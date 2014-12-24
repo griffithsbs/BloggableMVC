@@ -1,4 +1,5 @@
 ﻿using Com.GriffithsBen.BloggableMVC.Abstract;
+using Com.GriffithsBen.BloggableMVC.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -33,8 +34,6 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
         /// Note that this is the maximum number of characters to be returned in the synopsis of the content, 
         /// excluding the 3 characters that make up the trailing ellipsis
         /// </summary>
-        private const int DefaultSynopsisLength = 20;
-
         private static int? mGlobalSynopsisLength;
         /// <summary>
         /// If set, overrides the default synopsis length
@@ -58,7 +57,7 @@ namespace Com.GriffithsBen.BloggableMVC.Concrete {
             if (SmartBloggable.GlobalSynopsisLength.HasValue) {
                 return SmartBloggable.GlobalSynopsisLength.Value;
             }
-            return SmartBloggable.DefaultSynopsisLength;
+            return MarkupConfiguration.SynopsisLength;
         }
 
         private int? mSynopsisLength;
